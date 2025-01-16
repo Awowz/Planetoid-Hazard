@@ -5,6 +5,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from particle import Particle
 
 
 def main():
@@ -24,9 +25,9 @@ def main():
     Asteroid.containers = (all_asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
+    Particle.containers = (updatable, drawable)
 
-
-    my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)   
+    my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     AsteroidField_object = AsteroidField()
     while True:
         for event in pygame.event.get():

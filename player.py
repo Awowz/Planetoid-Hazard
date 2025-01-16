@@ -2,12 +2,14 @@ import pygame
 from circleshape import CircleShape
 from constants import *
 from shot import Shot
+from particleManager import ParticleManager
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.__shot_timer = 0
+        self.particleManager = ParticleManager()
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -31,6 +33,7 @@ class Player(CircleShape):
         bullet = Shot(self.position.x, self.position.y)
         bullet.velocity =  pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.__shot_timer = PLAYER_SHOT_COOLDOWN
+        self.particleManager.create_standard_particle(self.position, 1, 1)
 
     def update(self, delta_time):
 
