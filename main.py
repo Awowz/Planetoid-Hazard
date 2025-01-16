@@ -1,8 +1,10 @@
+import sys
 import pygame
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 
 
 def main():
@@ -15,11 +17,14 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     all_asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
     # note: player must be created after asigning static field, otherwise existing object wont take effect
     Player.containers = (updatable, drawable)
     Asteroid.containers = (all_asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
+    Shot.containers = (shots, updatable, drawable)
+
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)   
     AsteroidField_object = AsteroidField()
@@ -36,6 +41,11 @@ def main():
         for update_object in updatable:
             update_object.update(delta_time)
 
+        #collision check
+        for single_asteroid in all_asteroids:
+            if single_asteroid.checkCollision(my_player):
+                print("GAME OVER!")
+                sys.exit()
 
         # RENDER
         # fill screen first
