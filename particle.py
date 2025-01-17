@@ -6,6 +6,7 @@ class Particle(CircleShape):
         super().__init__(x,y,radius)
         self.fade_time = fade_time
         self.time_elipced = 0
+        self.deceleration = pygame.Vector2(0,0)
 
     def draw(self, screen):
         pygame.draw.circle(screen, (0,0,255), self.position, self.radius, 2)
@@ -13,6 +14,8 @@ class Particle(CircleShape):
 
     def update(self, delta_time):
         self.time_elipced += delta_time
+        self.position += self.velocity * delta_time
+        self.velocity += self.deceleration * delta_time
         if self.time_elipced >= self.fade_time:
             self.kill()
         

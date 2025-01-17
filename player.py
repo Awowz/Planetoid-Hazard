@@ -33,7 +33,7 @@ class Player(CircleShape):
         bullet = Shot(self.position.x, self.position.y)
         bullet.velocity =  pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.__shot_timer = PLAYER_SHOT_COOLDOWN
-        self.particleManager.create_standard_particle(self.position, 1, 1)
+        self.particleManager.create_standard_particle(self.position, 1, pygame.Vector2(0,1).rotate(self.rotation) * (PLAYER_SHOOT_SPEED / 2))
 
     def update(self, delta_time):
 
