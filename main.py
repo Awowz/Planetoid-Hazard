@@ -1,5 +1,6 @@
 import sys
 import pygame
+import math
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -7,9 +8,28 @@ from asteroidfield import AsteroidField
 from shot import Shot
 from particle import Particle
 
+def color_transition(my_player):
+    center_x = SCREEN_WIDTH / 2
+    center_y = SCREEN_HEIGHT / 2
+    x_distance = abs(my_player.position.x - center_x)
+    y_distance = abs(my_player.position.y - center_y)
 
-def render_game_objects(screen, drawable):
-    screen.fill((35,43,43))
+    normalize_x = x_distance / center_x
+    normalize_y = y_distance / center_y
+
+    normalize_distance = max(normalize_x, normalize_y)
+
+    center_RGB = (35,43,43)
+    outer_edges_RGB = (0,0,0)
+
+    r = int(center_RGB[0] + (-center_RGB[0] * normalize_distance))
+    g = int(center_RGB[1] + (-center_RGB[1] * normalize_distance))
+    b = int(center_RGB[2] + (-center_RGB[2] * normalize_distance))
+
+    return (r,g,b)
+
+def render_game_objects(screen, drawable, my_player):
+    screen.fill(color_transition(my_player))
 
     for draw_object in drawable:
         draw_object.draw(screen)
@@ -18,7 +38,7 @@ def render_game_objects(screen, drawable):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_asteroids):
+def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots):
     for update_object in updatable:
         update_object.update(delta_time)
 
@@ -26,6 +46,10 @@ def update_game_logic(delta_time, my_player, updatable, all_asteroids):
         if single_asteroid.checkCollision(my_player):
             print("GAME OVER!")
             sys.exit()
+        for single_shot in shots:
+            if single_shot.checkCollision(single_asteroid):
+                single_shot.kill()
+                single_asteroid.kill()
     
 
 def main():
@@ -54,9 +78,9 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_asteroids)    
+        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots)
 
-        render_game_objects(screen, drawable)
+        render_game_objects(screen, drawable, my_player)
 
         ##after the main gameloop has run run tick
         delta_time = clock_object.tick(60) / 1000 
