@@ -2,14 +2,15 @@ import pygame
 from circleshape import CircleShape
 
 class Particle(CircleShape):
-    def __init__(self, x, y, radius, fade_time):
+    def __init__(self, x, y, radius, fade_time, color=(0,0,255)):
         super().__init__(x,y,radius)
         self.fade_time = fade_time
         self.time_elipced = 0
         self.deceleration = pygame.Vector2(0,0)
+        self.color = color
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (0,0,255), self.position, self.radius, 2)
+        pygame.draw.circle(screen, self.color, self.position, self.radius, 2)
         
 
     def update(self, delta_time):

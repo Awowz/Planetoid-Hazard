@@ -20,7 +20,7 @@ class Player(CircleShape):
         return [a, b, c]
     
     def draw(self, screen):
-        pygame.draw.polygon(screen, "yellow", self.triangle(), 2)
+        pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
 
     def rotate(self, delta_time):
         self.rotation += PLAYER_TURN_SPEED * delta_time
@@ -28,7 +28,8 @@ class Player(CircleShape):
     def move(self, delta_time):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * delta_time
-        self.particleManager.create_particle_thrust(self.position, self.rotation)
+        back_triangle_position = self.position - pygame.Vector2(0,1).rotate(self.rotation) * self.radius
+        self.particleManager.create_particle_thrust(back_triangle_position, self.rotation)
 
     def shoot(self):
         bullet = Shot(self.position.x, self.position.y)

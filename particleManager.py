@@ -22,6 +22,6 @@ class ParticleManager():
     def create_particle_thrust(self, position, object_rotation):
 
         velocity = pygame.Vector2(0,1).rotate(object_rotation)
-        temp = Particle(position.x, position.y, PARTICLE_RADIUS, random.uniform(0.05,0.4))
+        temp = Particle(position.x, position.y, PARTICLE_RADIUS, random.uniform(0.05,0.4), (255,random.randint(0,233), 0))
         temp.velocity = velocity.rotate(random.randint(-PARTICLE_THRUST_DEGREE_VARIANCE,PARTICLE_THRUST_DEGREE_VARIANCE)) * -PARTICLE_THRUST_SPEED
         
