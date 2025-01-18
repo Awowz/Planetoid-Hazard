@@ -48,3 +48,5 @@ class Player(CircleShape):
             self.rotate(delta_time)
         if keys[pygame.K_SPACE]:
             self.shoot()
+        if keys[pygame.K_e]:
+            self.current_weapon.swap_weapon()
