@@ -7,6 +7,7 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
 from particle import Particle
+from weaponType import WeaponType
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -63,12 +64,14 @@ def main():
     all_asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
 
-    # note: player must be created after asigning static field, otherwise existing object wont take effect
+    # note: must be created after asigning static field, otherwise existing object wont take effect
+    WeaponType.containers = (updatable)
     Player.containers = (updatable, drawable)
     Asteroid.containers = (all_asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
+    
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     AsteroidField_object = AsteroidField()

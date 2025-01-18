@@ -1,15 +1,15 @@
 import pygame
 from circleshape import CircleShape
 from constants import *
-from shot import Shot
 from particleManager import ParticleManager
+from weaponType import WeaponType
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
-        self.__shot_timer = 0
         self.particleManager = ParticleManager()
+        self.current_weapon = WeaponType()
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -32,14 +32,10 @@ class Player(CircleShape):
         self.particleManager.create_particle_thrust(back_triangle_position, self.rotation)
 
     def shoot(self):
-        bullet = Shot(self.position.x, self.position.y)
-        bullet.velocity =  pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
-        self.__shot_timer = PLAYER_SHOT_COOLDOWN
-        self.particleManager.create_standard_particle(self.position, 1, pygame.Vector2(0,1).rotate(self.rotation) * (PLAYER_SHOOT_SPEED / 2), 30)
+        self.current_weapon.shoot(self.position, self.rotation)
 
     def update(self, delta_time):
 
-        self.__shot_timer -= delta_time
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:
@@ -50,5 +46,5 @@ class Player(CircleShape):
             self.rotate(-delta_time)
         if keys[pygame.K_d]:
             self.rotate(delta_time)
-        if keys[pygame.K_SPACE] and self.__shot_timer <= 0:
+        if keys[pygame.K_SPACE]:
             self.shoot()
