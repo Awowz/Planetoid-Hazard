@@ -28,6 +28,7 @@ class Player(CircleShape):
     def move(self, delta_time):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * delta_time
+        self.particleManager.create_particle_thrust(self.position, self.rotation)
 
     def shoot(self):
         bullet = Shot(self.position.x, self.position.y)
