@@ -63,3 +63,6 @@ class WeaponType(pygame.sprite.Sprite):
     def update(self, delta_time):
         self.__time_passed += delta_time
         self.__time_passed_swapping += delta_time
+
+    def getDamage(self):
+        return self.shot_damage

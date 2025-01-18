@@ -50,7 +50,7 @@ def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots):
         for single_shot in shots:
             if single_shot.checkCollision(single_asteroid):
                 single_shot.kill()
-                single_asteroid.kill()
+                single_asteroid.takeDamage(my_player.current_weapon.getDamage())# single_asteroid.kill()
     
 
 def main():
@@ -76,7 +76,7 @@ def main():
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     AsteroidField_object = AsteroidField()
 
-    print("\n\nKEYBINDS:\nW - UP\nA\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
+    print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
 
     while True:
         for event in pygame.event.get():
