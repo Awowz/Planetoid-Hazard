@@ -12,7 +12,6 @@ class AsteroidEnemy(BaseEnemy):
     def takeDamage(self, dmg):
         self.health -= dmg
         if self.health <= 0:
-            ParticleManager.on_death(ParticleManager(), self.position, self.radius/2)
             self.dropExpOrb()
             self.split()
 

@@ -1,6 +1,8 @@
 import pygame
 from circleshape import CircleShape
 from expOrb import ExpOrb
+from particleManager import ParticleManager
+from constants import *
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, color, health, exp_drop):
@@ -17,6 +19,13 @@ class BaseEnemy(CircleShape):
         self.health -= dmg
         if self.health < 0.001:
             self.kill()
+
+    def kill(self):
+        r = abs(self.color[0] - PARTICLE_ON_DEATH_COLOR_ADJUSTMENT)
+        g = abs(self.color[1] - PARTICLE_ON_DEATH_COLOR_ADJUSTMENT)
+        b = abs(self.color[2] - PARTICLE_ON_DEATH_COLOR_ADJUSTMENT)
+        ParticleManager.on_death(ParticleManager(), self.position, (r,g,b),self.radius/2)
+        return super().kill()
 
     ##for drawing
     def draw(self, screen):

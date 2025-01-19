@@ -32,14 +32,16 @@ class WeaponType(pygame.sprite.Sprite):
         self.particleManager = ParticleManager()
 
         
-        
+    def damageformula(self, player_level):
+        dmg = self.shot_damage + ((self.shot_damage * player_level) / 2)
+        return dmg
 
-    def shoot(self, position, rotation):
+
+    def shoot(self, position, rotation, player_level=1):
         if self.__time_passed >= self.shot_delay:
-            bullet = Shot(position.x, position.y, self.shot_radius)
+            bullet = Shot(position.x, position.y, self.shot_radius, self.damageformula(player_level))
             bullet.velocity =  pygame.Vector2(0,1).rotate(rotation + random.randint(-self.shot_accuracy, self.shot_accuracy)) * self.shot_speed
             self.__time_passed = 0
-            #self.particleManager.create_standard_particle(position, 1, pygame.Vector2(0,1).rotate(rotation) * (self.shot_speed / 2), 30)
         
 
 
@@ -63,6 +65,3 @@ class WeaponType(pygame.sprite.Sprite):
     def update(self, delta_time):
         self.__time_passed += delta_time
         self.__time_passed_swapping += delta_time
-
-    def getDamage(self):
-        return self.shot_damage

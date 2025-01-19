@@ -51,7 +51,7 @@ class Player(CircleShape):
         self.particleManager.create_particle_thrust(back_triangle_position, self.rotation)
 
     def shoot(self):
-        self.current_weapon.shoot(self.position, self.rotation)
+        self.current_weapon.shoot(self.position, self.rotation, self.current_lvl)
 
     def update(self, delta_time):
         keys = pygame.key.get_pressed()
