@@ -3,7 +3,8 @@ import pygame
 import math
 from constants import *
 from player import Player
-from asteroid import Asteroid
+###from asteroid import Asteroid
+from baseEnemy import BaseEnemy
 from gameDirector import GameDirector
 from shot import Shot
 from particle import Particle
@@ -40,14 +41,14 @@ def render_game_objects(screen, drawable, my_player):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress, my_particle_manager):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
     for update_object in updatable:
         update_object.update(delta_time)
 
-    for single_asteroid in all_asteroids:     #collision check
+    for single_asteroid in all_enemies:     #collision check
         if single_asteroid.checkCollision(my_player):
             print("GAME OVER!")
             sys.exit()
@@ -66,14 +67,17 @@ def main():
   
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    all_asteroids = pygame.sprite.Group()
+    ###all_asteroids = pygame.sprite.Group()
+    all_enemies = pygame.sprite.Group()
+    pathing = pygame.sprite.Group()
     shots = pygame.sprite.Group()
     checkProgress = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable)
     Player.containers = (updatable, drawable)
-    Asteroid.containers = (all_asteroids, updatable, drawable)
+    ###Asteroid.containers = (all_asteroids, updatable, drawable)
+    BaseEnemy.containers = (all_enemies, updatable, drawable, pathing)
     GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
@@ -90,7 +94,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress, my_particle_manager)
+        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager)
 
         render_game_objects(screen, drawable, my_player)
 

@@ -1,8 +1,8 @@
 import pygame
 import random
 from constants import *
-from asteroid import Asteroid
-
+#from asteroid import Asteroid
+from asteroidEnemy import AsteroidEnemy
 enemy_types = ["melee"]
 
 class GameDirector(pygame.sprite.Sprite):
@@ -68,8 +68,7 @@ class GameDirector(pygame.sprite.Sprite):
 
         if enemy_types[selected_enemy] == "melee":
             kind = random.randint(1, ASTEROID_KINDS)
-            asteroid = Asteroid(position.x, position.y, ASTEROID_MIN_RADIUS * kind)
-            asteroid.velocity = velocity
+            asteroid = AsteroidEnemy(position.x, position.y, ASTEROID_MIN_RADIUS * kind, velocity)
 
 
     def checkProgress(self, delta_time):
