@@ -4,7 +4,6 @@ import math
 from constants import *
 from player import Player
 from asteroid import Asteroid
-#from asteroidfield import AsteroidField
 from gameDirector import GameDirector
 from shot import Shot
 from particle import Particle
@@ -73,14 +72,12 @@ def main():
     WeaponType.containers = (updatable)
     Player.containers = (updatable, drawable)
     Asteroid.containers = (all_asteroids, updatable, drawable)
-    #AsteroidField.containers = (updatable)
     GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
     
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
-    #AsteroidField_object = AsteroidField()
     my_game_director = GameDirector()
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
