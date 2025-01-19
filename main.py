@@ -4,7 +4,8 @@ import math
 from constants import *
 from player import Player
 from asteroid import Asteroid
-from asteroidfield import AsteroidField
+#from asteroidfield import AsteroidField
+from gameDirector import GameDirector
 from shot import Shot
 from particle import Particle
 from weaponType import WeaponType
@@ -39,7 +40,10 @@ def render_game_objects(screen, drawable, my_player):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots):
+def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress):
+    for check_progress in checkProgress:
+        check_progress.checkProgress(delta_time)
+
     for update_object in updatable:
         update_object.update(delta_time)
 
@@ -63,18 +67,21 @@ def main():
     drawable = pygame.sprite.Group()
     all_asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    checkProgress = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable)
     Player.containers = (updatable, drawable)
     Asteroid.containers = (all_asteroids, updatable, drawable)
-    AsteroidField.containers = (updatable)
+    #AsteroidField.containers = (updatable)
+    GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
     
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
-    AsteroidField_object = AsteroidField()
+    #AsteroidField_object = AsteroidField()
+    my_game_director = GameDirector()
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
 
@@ -83,7 +90,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots)
+        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress)
 
         render_game_objects(screen, drawable, my_player)
 

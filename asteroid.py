@@ -6,7 +6,7 @@ from constants import *
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius, health=30):
         super().__init__(x, y, radius)
-        self.health = 30
+        self.health = health
 
     def takeDamage(self, dmg):
         self.health -= dmg
