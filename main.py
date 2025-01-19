@@ -8,6 +8,7 @@ from gameDirector import GameDirector
 from shot import Shot
 from particle import Particle
 from weaponType import WeaponType
+from particleManager import ParticleManager
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -39,7 +40,7 @@ def render_game_objects(screen, drawable, my_player):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress):
+def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress, my_particle_manager):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -53,7 +54,8 @@ def update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, ch
         for single_shot in shots:
             if single_shot.checkCollision(single_asteroid):
                 single_shot.kill()
-                single_asteroid.takeDamage(my_player.current_weapon.getDamage())# single_asteroid.kill()
+                single_asteroid.takeDamage(my_player.current_weapon.getDamage())
+                my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
     
 
 def main():
@@ -79,6 +81,7 @@ def main():
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
+    my_particle_manager = ParticleManager()
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
 
@@ -87,7 +90,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress)
+        update_game_logic(delta_time, my_player, updatable, all_asteroids, shots, checkProgress, my_particle_manager)
 
         render_game_objects(screen, drawable, my_player)
 

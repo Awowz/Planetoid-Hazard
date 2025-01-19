@@ -39,7 +39,7 @@ class WeaponType(pygame.sprite.Sprite):
             bullet = Shot(position.x, position.y, self.shot_radius)
             bullet.velocity =  pygame.Vector2(0,1).rotate(rotation + random.randint(-self.shot_accuracy, self.shot_accuracy)) * self.shot_speed
             self.__time_passed = 0
-            self.particleManager.create_standard_particle(position, 1, pygame.Vector2(0,1).rotate(rotation) * (self.shot_speed / 2), 30)
+            #self.particleManager.create_standard_particle(position, 1, pygame.Vector2(0,1).rotate(rotation) * (self.shot_speed / 2), 30)
         
 
 
