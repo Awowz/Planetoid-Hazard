@@ -1,5 +1,6 @@
 import pygame
 from circleshape import CircleShape
+from expOrb import ExpOrb
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, color, health, exp_drop):
@@ -9,6 +10,8 @@ class BaseEnemy(CircleShape):
         self.health = health
         self.exp_drop = exp_drop
 
+    def dropExpOrb(self):
+        ExpOrb(self.position, self.exp_drop)
         
     def takeDamage(self, dmg):
         self.health -= dmg

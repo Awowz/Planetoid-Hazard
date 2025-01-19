@@ -9,6 +9,7 @@ from shot import Shot
 from particle import Particle
 from weaponType import WeaponType
 from particleManager import ParticleManager
+from expOrb import ExpOrb
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -40,7 +41,7 @@ def render_game_objects(screen, drawable, my_player):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -56,6 +57,10 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
                 single_shot.kill()
                 single_enemy.takeDamage(my_player.current_weapon.getDamage())
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
+        
+    for single_exp in all_exp:
+        #TODO
+        pass
     
 
 def main():
@@ -70,6 +75,7 @@ def main():
     pathing = pygame.sprite.Group()
     shots = pygame.sprite.Group()
     checkProgress = pygame.sprite.Group()
+    all_exp = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable)
@@ -78,6 +84,7 @@ def main():
     GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
+    ExpOrb.containers = (updatable, drawable, all_exp)
     
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
@@ -91,7 +98,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager)
+        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp)
 
         render_game_objects(screen, drawable, my_player)
 

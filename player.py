@@ -10,6 +10,9 @@ class Player(CircleShape):
         self.rotation = 0
         self.particleManager = ParticleManager()
         self.current_weapon = WeaponType()
+        self.current_exp = 0
+        self.current_lvl = 1
+        self.exp_radius_magnet = PLAYER_EXP_MAGNET
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
