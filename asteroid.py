@@ -2,6 +2,7 @@ import pygame
 import random
 from circleshape import CircleShape
 from constants import *
+from particleManager import ParticleManager
 
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius, health=30):
@@ -11,6 +12,7 @@ class Asteroid(CircleShape):
     def takeDamage(self, dmg):
         self.health -= dmg
         if self.health <= 0:
+            ParticleManager.on_death(ParticleManager(), self.position, self.radius/2)
             self.split()
 
     def split(self):

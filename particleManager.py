@@ -12,6 +12,11 @@ class ParticleManager():
         self.particle_list = []
         self.time_passed = 0
 
+    def on_death(self, position, death_impact_size=2, particle_radius=1):
+        for x in range(45):
+            particle_velocity = pygame.Vector2(0,1) * (death_impact_size * PARTICLE_ON_DEATH_SPEED * random.uniform(0.1,1.5))
+            self.create_standard_particle(1,position, particle_velocity, particle_radius, degree_variance=360, fade_time=1.5)
+
     def on_hit(self, position, velocity, particle_radius=1, degree_variance=69):
         self.create_standard_particle(1, position, -velocity, particle_radius, 0, PARTICLE_ON_HIT_FADE, degree_variance, color=(140,140,140))
 
