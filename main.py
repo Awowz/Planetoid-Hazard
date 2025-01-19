@@ -3,7 +3,6 @@ import pygame
 import math
 from constants import *
 from player import Player
-###from asteroid import Asteroid
 from baseEnemy import BaseEnemy
 from gameDirector import GameDirector
 from shot import Shot
@@ -48,14 +47,14 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
     for update_object in updatable:
         update_object.update(delta_time)
 
-    for single_asteroid in all_enemies:     #collision check
-        if single_asteroid.checkCollision(my_player):
+    for single_enemy in all_enemies:     #collision check
+        if single_enemy.checkCollision(my_player):
             print("GAME OVER!")
             sys.exit()
         for single_shot in shots:
-            if single_shot.checkCollision(single_asteroid):
+            if single_shot.checkCollision(single_enemy):
                 single_shot.kill()
-                single_asteroid.takeDamage(my_player.current_weapon.getDamage())
+                single_enemy.takeDamage(my_player.current_weapon.getDamage())
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
     
 
@@ -67,7 +66,6 @@ def main():
   
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    ###all_asteroids = pygame.sprite.Group()
     all_enemies = pygame.sprite.Group()
     pathing = pygame.sprite.Group()
     shots = pygame.sprite.Group()
@@ -76,7 +74,6 @@ def main():
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable)
     Player.containers = (updatable, drawable)
-    ###Asteroid.containers = (all_asteroids, updatable, drawable)
     BaseEnemy.containers = (all_enemies, updatable, drawable, pathing)
     GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
