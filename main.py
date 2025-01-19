@@ -60,6 +60,8 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
         
     for single_exp in all_exp:
         single_exp.checkCollision(my_player)
+        single_exp.move_to_player(my_player, delta_time)
+        
         
     
 
