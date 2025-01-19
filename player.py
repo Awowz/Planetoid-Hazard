@@ -14,6 +14,15 @@ class Player(CircleShape):
         self.current_lvl = 1
         self.exp_radius_magnet = PLAYER_EXP_MAGNET
 
+    def getRequiredExp(self):
+        return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO
+
+    def gainExp(self, exp_amount):
+        self.current_exp += exp_amount
+        if self.current_exp >= self.getRequiredExp():
+            self.current_exp = self.current_exp - self.getRequiredExp()
+            self.current_lvl += 1
+
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
         right = pygame.Vector2(0,1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -22,8 +31,15 @@ class Player(CircleShape):
         c = self.position - forward * self.radius + right
         return [a, b, c]
     
+    def __drawXpBar(self, screen):
+        pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y, PLAYER_EXP_DISPLAY_LENGTH + PLAYER_EXP_DISPLAY_BORDER, PLAYER_EXP_DISPLAY_HEIGHT + PLAYER_EXP_DISPLAY_BORDER], 0)
+        normalize_length = (self.current_exp + 0.01) / self.getRequiredExp()
+        pygame.draw.rect(screen, EXP_COLOR, [PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y, PLAYER_EXP_DISPLAY_LENGTH * normalize_length, PLAYER_EXP_DISPLAY_HEIGHT])
+
     def draw(self, screen):
         pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
+        self.__drawXpBar(screen)
+        
 
     def rotate(self, delta_time):
         self.rotation += PLAYER_TURN_SPEED * delta_time
@@ -38,7 +54,6 @@ class Player(CircleShape):
         self.current_weapon.shoot(self.position, self.rotation)
 
     def update(self, delta_time):
-
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:

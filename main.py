@@ -59,8 +59,8 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
         
     for single_exp in all_exp:
-        #TODO
-        pass
+        single_exp.checkCollision(my_player)
+        
     
 
 def main():
