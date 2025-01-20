@@ -3,7 +3,8 @@ import random
 from constants import *
 #from asteroid import Asteroid
 from asteroidEnemy import AsteroidEnemy
-enemy_types = ["melee"]
+from meleeEnemy import MeleeEnemy
+enemy_types = ["asteroid", "melee"]
 
 class GameDirector(pygame.sprite.Sprite):
     edges = [
@@ -62,13 +63,15 @@ class GameDirector(pygame.sprite.Sprite):
 
         edge = random.choice(self.edges)
         speed = random.randint(40, 100)
-        velocity = edge[0] * speed
+        velocity = edge[0]
         velocity = velocity.rotate(random.randint(-30,30))
         position = edge[1](random.uniform(0,1))
 
-        if enemy_types[selected_enemy] == "melee":
+        if enemy_types[selected_enemy] == "asteroid":
             kind = random.randint(1, ASTEROID_KINDS)
-            asteroid = AsteroidEnemy(position.x, position.y, ASTEROID_MIN_RADIUS * kind, velocity)
+            asteroid = AsteroidEnemy(position.x, position.y, ASTEROID_MIN_RADIUS * kind, velocity, speed)
+        elif enemy_types[selected_enemy] == "melee":
+            melee = MeleeEnemy(position.x, position.y, 20, pygame.Vector2(0,1), 85, (0,255,0), 50, 50)
 
 
     def checkProgress(self, delta_time):

@@ -49,6 +49,7 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
         update_object.update(delta_time)
 
     for single_enemy in all_enemies:     #collision check
+        single_enemy.pathing(my_player.position, delta_time)
         if single_enemy.checkCollision(my_player):
             print("GAME OVER!")
             sys.exit()
