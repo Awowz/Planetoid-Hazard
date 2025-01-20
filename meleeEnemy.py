@@ -4,8 +4,8 @@ from baseEnemy import BaseEnemy
 from constants import *
 
 class MeleeEnemy(BaseEnemy):
-    def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):
-        super().__init__(x, y, radius, velocity, speed, color, health, exp_drop)
+    def __init__(self, x, y, radius, velocity, speed, color, add_health, add_exp_drop):
+        super().__init__(x, y, radius, velocity, speed, color, add_health + MELEE_BASE_HEALTH, add_exp_drop + MELEE_BASE_EXP_DROP)
         self.rotation = 0
 
     def drawModel(self) ->list:

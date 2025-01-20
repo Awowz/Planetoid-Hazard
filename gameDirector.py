@@ -55,7 +55,7 @@ class GameDirector(pygame.sprite.Sprite):
         return new_timer
     
     def spawn(self):
-        enemy_variety_options = min(self.current_dificulty, len(enemy_types))
+        enemy_variety_options = min(self.current_dificulty, len(enemy_types) - 1)
         if enemy_variety_options == 0:
             selected_enemy = 0
         else:
@@ -69,20 +69,26 @@ class GameDirector(pygame.sprite.Sprite):
 
         if enemy_types[selected_enemy] == "asteroid":
             kind = random.randint(1, ASTEROID_KINDS)
-            asteroid = AsteroidEnemy(position.x, position.y, ASTEROID_MIN_RADIUS * kind, velocity, speed)
+            asteroid = AsteroidEnemy(position.x, position.y, ASTEROID_MIN_RADIUS * kind, velocity, speed, add_health=self.healthFormula(ASTEROID_BASE_HEALTH), add_exp_drop=self.expFormula(ASTEROID_BASE_EXP_DROP))
         elif enemy_types[selected_enemy] == "melee":
-            melee = MeleeEnemy(position.x, position.y, 20, pygame.Vector2(0,1), 85, (0,255,0), 50, 50)
+            melee = MeleeEnemy(position.x, position.y, MELEE_RADIUS, pygame.Vector2(0,1), MELEE_SPEED, MELEE_COLOR, self.healthFormula(MELEE_BASE_HEALTH), self.expFormula(MELEE_BASE_EXP_DROP))
 
 
     def checkProgress(self, delta_time):
         self.__totalingUpTime(delta_time)
+        print(f"dificulty: {self.current_dificulty}   towertime: {self.tower_remaining_time}")
         
         if self.tower_remaining_time <= 0:
             self.tower_remaining_time = TOWER_TIMER_LENGTH
+            self.current_dificulty += 1
             #TODO SPAWN CHEST
         
         if self.__getEnemySpawnTime() <= self.time_passed_till_enemy_spawn:
             self.time_passed_till_enemy_spawn = 0            
             self.spawn()
 
+    def healthFormula(self,base):
+        return self.current_dificulty * 5
     
+    def expFormula(self,base):
+        return self.current_dificulty * (base / 2)
