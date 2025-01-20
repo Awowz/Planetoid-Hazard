@@ -76,7 +76,6 @@ class GameDirector(pygame.sprite.Sprite):
 
     def checkProgress(self, delta_time):
         self.__totalingUpTime(delta_time)
-        print(f"dificulty: {self.current_dificulty}   towertime: {self.tower_remaining_time}")
         
         if self.tower_remaining_time <= 0:
             self.tower_remaining_time = TOWER_TIMER_LENGTH
