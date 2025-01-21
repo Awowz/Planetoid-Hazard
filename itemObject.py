@@ -3,13 +3,15 @@ import itemsList
 import pygame
 import os
 from circleshape import CircleShape
+from temporaryTextObject import TextObject
 
 from itemConstants import *
 
 class ItemObject(CircleShape):
-    def __init__(self, x, y, radius, item_str):
+    def __init__(self, x, y, radius, item_str, item_desct):
         super().__init__(x, y, radius)
         self.my_item_str = item_str
+        self.item_desct = item_desct
         self.our_item_list = itemsList.ItemList()
         self.imageObject = None
         self.getImage()
@@ -37,5 +39,5 @@ class ItemObject(CircleShape):
 
     def givePlayerItem(self):
         self.our_item_list.increase_count_of_item(self.my_item_str)
-        #TODO display on ui
+        TextObject(self.position, f"{self.my_item_str}:\n{self.item_desct}")
         self.kill()

@@ -1,4 +1,5 @@
 import pygame
+import pygame.tests
 from circleshape import CircleShape
 from constants import *
 from particleManager import ParticleManager
@@ -15,6 +16,7 @@ class Player(CircleShape):
         self.current_lvl = 1
         self.exp_radius_magnet = PLAYER_EXP_MAGNET
         self.our_items_list = ItemList()
+        self.font = pygame.font.Font(None, UI_FONT_SIZE)
 
     def getRequiredExp(self):
         return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO
@@ -41,9 +43,14 @@ class Player(CircleShape):
         normalize_length = (self.current_exp + 0.01) / self.getRequiredExp()
         pygame.draw.rect(screen, EXP_COLOR, [PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y, PLAYER_EXP_DISPLAY_LENGTH * normalize_length, PLAYER_EXP_DISPLAY_HEIGHT])
 
+    def __drawPlayerLvl(self, screen):
+        text = self.font.render(f"{self.current_lvl} LVL", True, UI_FONT_COLOR)
+        screen.blit(text, pygame.Vector2(PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y - UI_PLAYER_LVL_OFFSET))
+
     def draw(self, screen):
         pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
         self.__drawXpBar(screen)
+        self.__drawPlayerLvl(screen)
         
 
     def rotate(self, delta_time):

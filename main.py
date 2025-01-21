@@ -11,6 +11,7 @@ from weaponType import WeaponType
 from particleManager import ParticleManager
 from expOrb import ExpOrb
 from itemObject import ItemObject
+from temporaryTextObject import TextObject
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -92,6 +93,7 @@ def main():
     Particle.containers = (updatable, drawable)
     ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
     ItemObject.containers = (drawable, all_pickup) #add 'allexp'
+    TextObject.containers = (updatable, drawable)
     
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
