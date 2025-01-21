@@ -4,7 +4,7 @@ import pygame
 import os
 from circleshape import CircleShape
 
-from constants import *
+from itemConstants import *
 
 class ItemObject(CircleShape):
     def __init__(self, x, y, radius, item_str):

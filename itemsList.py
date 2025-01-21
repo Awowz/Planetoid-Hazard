@@ -1,6 +1,7 @@
 import pygame
 import random
 from constants import *
+from itemConstants import *
 from itemObject import ItemObject
 
 class ItemList():
@@ -15,12 +16,12 @@ class ItemList():
     def init_inventory(self):
         self.all_items = {
             ##########general stat upgrades##########
-            "threaded barrel" : {COUNT : 0, DESCRIPTION: f"increases accuracy of shots by current count x {THREADED_BARREL}", RARITY : WHITE},
+            THREADED_BARREL_NAME : {COUNT : 0, DESCRIPTION: f"increases accuracy of shots by current count x {THREADED_BARREL_VALUE}", RARITY : WHITE},
             #shoot faster
             #increase exp pickup range
             #increase movement
             ##########on death items##########
-            "dud airstrike" : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
+            DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
             #3 second shield
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
@@ -30,9 +31,9 @@ class ItemList():
             #stun
             #blead
             #missle
-            "extra gunpowder" : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
+            EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
             ##########uniques##########
-            #shoot twice (20%)
+            GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
             #75% damage to enemeis above 90& health
             #spawn landmine every tower cycle
@@ -67,6 +68,20 @@ class ItemList():
         item_to_spawn = self.__get_pick_item(list_of_items_to_pick)
 
         ItemObject(position.x, position.y, 20, item_to_spawn)
+
+    def getAccuracy(self) ->float:
+        return self.all_items[THREADED_BARREL_NAME][COUNT] * THREADED_BARREL_VALUE
+    
+    def getBulletCount(self) -> int:
+        bullets_produced = 0
+        bullet_odds = self.all_items[GHOST_LOADING_NAME][COUNT] * GHOST_LOADING_VALUE
+        while bullet_odds >= 100:
+            bullets_produced += 1
+            bullet_odds -= 100
+        odds = random.randint(1,100)
+        if odds < bullet_odds:
+            bullets_produced += 1
+        return bullets_produced
 
 
     def list_all(self):
