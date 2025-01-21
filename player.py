@@ -25,6 +25,9 @@ class Player(CircleShape):
             self.current_exp = self.current_exp - self.getRequiredExp()
             self.current_lvl += 1
 
+    def getPlayerExpRadius(self):
+        return self.exp_radius_magnet + self.our_items_list.getMagnetRadius()
+
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
         right = pygame.Vector2(0,1).rotate(self.rotation + 90) * self.radius / 1.5

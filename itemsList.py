@@ -18,7 +18,7 @@ class ItemList():
             ##########general stat upgrades##########
             THREADED_BARREL_NAME : {COUNT : 0, DESCRIPTION: f"increases accuracy of shots by current count x {THREADED_BARREL_VALUE}", RARITY : WHITE},
             #shoot faster
-            #increase exp pickup range
+            MAGNET_NAME : {COUNT : 20, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
             #increase movement
             ##########on death items##########
             DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
@@ -82,6 +82,9 @@ class ItemList():
         if odds < bullet_odds:
             bullets_produced += 1
         return bullets_produced
+    
+    def getMagnetRadius(self):
+        return self.all_items[MAGNET_NAME][COUNT] * MAGNET_VALUE
 
 
     def list_all(self):

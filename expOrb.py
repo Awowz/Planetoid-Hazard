@@ -41,7 +41,7 @@ class ExpOrb(CircleShape):
     
     def checkCollision(self, target):
         distance = self.position.distance_to(target.position)
-        is_collided = distance <= self.radius + target.exp_radius_magnet
+        is_collided = distance <= self.radius + target.getPlayerExpRadius()
         
         if is_collided:
             self.__has_touched_players_magnet = True
