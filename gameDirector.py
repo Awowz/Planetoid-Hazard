@@ -4,6 +4,7 @@ from constants import *
 #from asteroid import Asteroid
 from asteroidEnemy import AsteroidEnemy
 from meleeEnemy import MeleeEnemy
+from itemsList import ItemList
 enemy_types = ["asteroid", "melee"]
 
 class GameDirector(pygame.sprite.Sprite):
@@ -39,6 +40,7 @@ class GameDirector(pygame.sprite.Sprite):
         self.tower_remaining_time = TOWER_TIMER_LENGTH
         self.current_dificulty = 0
         self.time_passed_till_enemy_spawn = 0
+        self.our_item_list = ItemList()
 
     def __getScreenSpawnCap(self):
         return GAME_DIRECTOR_SCREEN_SPAWN_CAP + ((GAME_DIRECTOR_SCREEN_SPAWN_CAP * self.current_dificulty ) // GAME_DIRECTOR_SCREEN_SPAWN_DIVIDING_FACTOR)
@@ -81,7 +83,8 @@ class GameDirector(pygame.sprite.Sprite):
             self.tower_remaining_time = TOWER_TIMER_LENGTH
             self.current_dificulty += 1
             #TODO SPAWN CHEST
-        
+            self.our_item_list.spawn_item(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+
         if self.__getEnemySpawnTime() <= self.time_passed_till_enemy_spawn:
             self.time_passed_till_enemy_spawn = 0            
             self.spawn()

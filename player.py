@@ -3,6 +3,7 @@ from circleshape import CircleShape
 from constants import *
 from particleManager import ParticleManager
 from weaponType import WeaponType
+from itemsList import ItemList
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -13,6 +14,7 @@ class Player(CircleShape):
         self.current_exp = 0
         self.current_lvl = 1
         self.exp_radius_magnet = PLAYER_EXP_MAGNET
+        self.our_items_list = ItemList()
 
     def getRequiredExp(self):
         return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO

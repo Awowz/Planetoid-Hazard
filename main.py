@@ -10,6 +10,7 @@ from particle import Particle
 from weaponType import WeaponType
 from particleManager import ParticleManager
 from expOrb import ExpOrb
+from itemObject import ItemObject
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -41,7 +42,7 @@ def render_game_objects(screen, drawable, my_player):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -58,9 +59,10 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
                 single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
                 single_shot.kill()
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
-        
+    for single_pickup in all_pickup:
+        single_pickup.checkCollision(my_player)
+
     for single_exp in all_exp:
-        single_exp.checkCollision(my_player)
         single_exp.move_to_player(my_player, delta_time)
         
         
@@ -79,6 +81,7 @@ def main():
     shots = pygame.sprite.Group()
     checkProgress = pygame.sprite.Group()
     all_exp = pygame.sprite.Group()
+    all_pickup = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable)
@@ -87,7 +90,8 @@ def main():
     GameDirector.containers = (checkProgress)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
-    ExpOrb.containers = (updatable, drawable, all_exp)
+    ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
+    ItemObject.containers = (drawable, all_pickup) #add 'allexp'
     
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
@@ -101,7 +105,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp)
+        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup)
 
         render_game_objects(screen, drawable, my_player)
 

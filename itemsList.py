@@ -1,6 +1,7 @@
 import pygame
 import random
 from constants import *
+from itemObject import ItemObject
 
 class ItemList():
     _instance = None
@@ -65,7 +66,7 @@ class ItemList():
 
         item_to_spawn = self.__get_pick_item(list_of_items_to_pick)
 
-        #TODO CREATE INSTANCE object thats drawable and checks for player collision
+        ItemObject(position.x, position.y, 20, item_to_spawn)
 
 
     def list_all(self):

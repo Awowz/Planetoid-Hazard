@@ -88,3 +88,5 @@ WHITE_ODDS = 73.99
 GREEN = "green"
 GREEN_ODDS = 98.89
 RED = "red"
+
+PLACE_HOLDER_IMAGE = "Assets/placeholder.png"
