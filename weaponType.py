@@ -4,6 +4,7 @@ from constants import *
 from shot import Shot
 from particleManager import ParticleManager
 from itemsList import ItemList
+from temporaryTextObject import TextObject
 
 avaliable_weapons = [
     {"gun type": "pistol", "fire rate": PISTOL_FIRE_RATE, "damage": PISTOL_DAMAGE, "bullet speed": PISTOL_SHOOT_SPEED, "radius": PISTOL_SHOT_RADIUS, "accuracy": PISTOL_ACCURACY, "bullet count": PISTOL_PELLETS},
@@ -77,6 +78,8 @@ class WeaponType(pygame.sprite.Sprite):
         self.shot_radius = avaliable_weapons[self.__current_weapon_position]["radius"]
         self.shot_accuracy = avaliable_weapons[self.__current_weapon_position]["accuracy"]
         self.bullet_count = avaliable_weapons[self.__current_weapon_position]["bullet count"]
+
+        TextObject(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT), self.active_gun, UI_WEAPON_TEXT_SPEED, UI_WEAPON_TEXT_FADE)
 
     def update(self, delta_time):
         self.__time_passed += delta_time
