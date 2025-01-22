@@ -26,6 +26,7 @@ class Player(CircleShape):
         if self.current_exp >= self.getRequiredExp():
             self.current_exp = self.current_exp - self.getRequiredExp()
             self.current_lvl += 1
+            self.particleManager.confetti(self.position)
 
     def getPlayerExpRadius(self):
         return self.exp_radius_magnet + self.our_items_list.getMagnetRadius()
