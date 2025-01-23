@@ -5,6 +5,7 @@ from shot import Shot
 from particleManager import ParticleManager
 from itemsList import ItemList
 from temporaryTextObject import TextObject
+from audioManager import AudioManager
 
 avaliable_weapons = [
     {"gun type": "pistol", "fire rate": PISTOL_FIRE_RATE, "damage": PISTOL_DAMAGE, "bullet speed": PISTOL_SHOOT_SPEED, "radius": PISTOL_SHOT_RADIUS, "accuracy": PISTOL_ACCURACY, "bullet count": PISTOL_PELLETS},
@@ -35,6 +36,7 @@ class WeaponType(pygame.sprite.Sprite):
         self.swap_weapon()
         self.particleManager = ParticleManager()
         self.our_items_list = ItemList()
+        self.our_audio_manager = AudioManager()
 
         
     def damageformula(self, player_level):
@@ -58,6 +60,7 @@ class WeaponType(pygame.sprite.Sprite):
                 bullet = Shot(position.x, position.y, self.shot_radius, self.damageformula(player_level))
                 bullet.velocity =  pygame.Vector2(0,1).rotate(rotation + random.uniform(-self.__getAccuracy(), self.__getAccuracy())) * self.shot_speed
                 self.__time_passed = 0
+                self.our_audio_manager.playAudioGunShot()
         
 
 
