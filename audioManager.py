@@ -1,4 +1,5 @@
 import pygame
+from constants import *
 
 class AudioManager():
     _instance = None
@@ -11,7 +12,19 @@ class AudioManager():
     
     def init_audio(self):
         pygame.mixer.init()
-        self.gunSound = pygame.mixer.Sound("Assets/Audio/laser-gun.ogg")
+        self.gunSound = pygame.mixer.Sound(AUDIO_LOCATION_LAZER_GUN)
+        self.impact = pygame.mixer.Sound(AUDIO_LOCATION_IMPACT)
+        
+        self.isMute = True
+        self.isMuteAllForSanity()
 
     def playAudioGunShot(self):
         self.gunSound.play()
+
+    def playAudioImpact(self):
+        self.impact.play()
+
+    def isMuteAllForSanity(self):
+        if self.isMute:
+            self.gunSound.set_volume(0)
+            self.impact.set_volume(0)

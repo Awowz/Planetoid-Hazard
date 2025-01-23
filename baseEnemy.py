@@ -3,6 +3,7 @@ from circleshape import CircleShape
 from expOrb import ExpOrb
 from particleManager import ParticleManager
 from constants import *
+from audioManager import AudioManager
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):
@@ -13,11 +14,15 @@ class BaseEnemy(CircleShape):
         self.exp_drop = exp_drop
         self.speed = speed
 
+        self.our_audio_manager = AudioManager()
+
     def dropExpOrb(self):
         ExpOrb(self.position, self.exp_drop)
         
     def takeDamage(self, dmg):
         self.health -= dmg
+        print("sigma?")
+        self.our_audio_manager.playAudioImpact()
         if self.health < 0.001:
             self.kill()
 
