@@ -34,7 +34,7 @@ class ItemList():
             #stun
             #blead
             #missle
-            EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
+            EXTRA_GUNPOWDER_NAME : {COUNT : 1, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
             ##########uniques##########
             GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
@@ -82,6 +82,12 @@ class ItemList():
 
     def getGunPowderAOE(self) ->float:
         return self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] * EXTRA_GUNPOWDER_RADIUS
+
+    def canISpawnExpo(self) ->bool:
+        if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:
+            return True
+        return False
+
 
     def getBulletCount(self) -> int:
         bullets_produced = 0

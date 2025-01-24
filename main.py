@@ -12,6 +12,10 @@ from particleManager import ParticleManager
 from expOrb import ExpOrb
 from itemObject import ItemObject
 from temporaryTextObject import TextObject
+from explode import Explode
+from itemsList import ItemList
+
+our_list = ItemList()
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -46,7 +50,7 @@ def render_game_objects(screen, drawable, my_player, playerDependentDraw):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -61,8 +65,14 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
         for single_shot in shots:
             if single_shot.checkCollision(single_enemy):
                 single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
+                if our_list.canISpawnExpo():
+                    Explode(single_shot.position, our_list.getGunPowderAOE(), my_player.current_weapon.shot_damage, single_enemy)
                 single_shot.kill()
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
+        for expo in explode_radius:
+            if expo.checkCollision(single_enemy) and not expo.isTargetAlreadyTakenDamage(single_enemy):
+                single_enemy.takeDamage(expo.damage)
+
     for single_pickup in all_pickup:
         single_pickup.checkCollision(my_player)
 
@@ -87,6 +97,7 @@ def main():
     checkProgress = pygame.sprite.Group()
     all_exp = pygame.sprite.Group()
     all_pickup = pygame.sprite.Group()
+    explode_radius = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable, drawable, playerDependentDraw)
@@ -98,7 +109,7 @@ def main():
     ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
     ItemObject.containers = (drawable, all_pickup) #add 'allexp'
     TextObject.containers = (updatable, drawable)
-    
+    Explode.containers = (drawable, explode_radius, updatable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
@@ -111,7 +122,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup)
+        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius)
 
         render_game_objects(screen, drawable, my_player, playerDependentDraw)
 

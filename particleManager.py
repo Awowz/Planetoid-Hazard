@@ -17,6 +17,11 @@ class ParticleManager():
             particle_velocity = pygame.Vector2(0,1) * (death_impact_size * PARTICLE_ON_DEATH_SPEED * random.uniform(0.1,1.5))
             self.create_standard_particle(1,position, particle_velocity, particle_radius, degree_variance=360, fade_time=1.5, color=color)
 
+    def explosion(self, position):
+        for x in range (9):
+            velocity = pygame.Vector2(0,1) * (EXPLOSION_PARTICLE_SPEED * random.uniform(0.01,1.5))
+            self.create_standard_particle(1,position, velocity, EXPLOSION_PARTICLE_RADIUS, particle_thickness=EXPLOSION_PARTICLE_THICKNESS, degree_variance=360, fade_time=EXPLOSION_PARTICLE_FADE, color=(255,255,255))
+
     def confetti(self, position):
         for x in range(70):
             r = random.randint(0,255)
