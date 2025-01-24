@@ -20,12 +20,15 @@ class ItemList():
             #shoot faster
             MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
             #increase movement
+            #reload speed
+            #ammo cap
             ##########on death items##########
             DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
             #3 second shield
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
             ##########on hit##########
+            #each accurate shot can have a chance of going back into the mag
             #10% to do double damage
             #slow
             #stun
@@ -38,6 +41,8 @@ class ItemList():
             #75% damage to enemeis above 90& health
             #spawn landmine every tower cycle
             #spawn turret
+            #first bullet in mag does 100% damage
+            
             
         }
     def __rarity_pick(self) -> str:

@@ -21,7 +21,6 @@ class BaseEnemy(CircleShape):
         
     def takeDamage(self, dmg):
         self.health -= dmg
-        print("sigma?")
         self.our_audio_manager.playAudioImpact()
         if self.health < 0.001:
             self.kill()

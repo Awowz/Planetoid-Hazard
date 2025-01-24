@@ -33,11 +33,14 @@ def color_transition(my_player):
 
     return (r,g,b)
 
-def render_game_objects(screen, drawable, my_player):
+def render_game_objects(screen, drawable, my_player, playerDependentDraw):
     screen.fill(color_transition(my_player))
 
     for draw_object in drawable:
         draw_object.draw(screen)
+
+    for draw_object_near_player in playerDependentDraw:
+        draw_object_near_player.playerDependentDraw(screen, my_player)
 
     # the following command should be the last line for rendering
     pygame.display.flip()
@@ -77,6 +80,7 @@ def main():
   
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    playerDependentDraw = pygame.sprite.Group()
     all_enemies = pygame.sprite.Group()
     pathing = pygame.sprite.Group()
     shots = pygame.sprite.Group()
@@ -85,7 +89,7 @@ def main():
     all_pickup = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
-    WeaponType.containers = (updatable)
+    WeaponType.containers = (updatable, drawable, playerDependentDraw)
     Player.containers = (updatable, drawable)
     BaseEnemy.containers = (all_enemies, updatable, drawable, pathing)
     GameDirector.containers = (checkProgress)
@@ -109,7 +113,7 @@ def main():
         
         update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup)
 
-        render_game_objects(screen, drawable, my_player)
+        render_game_objects(screen, drawable, my_player, playerDependentDraw)
 
         ##after the main gameloop has run run tick
         delta_time = clock_object.tick(60) / 1000 
