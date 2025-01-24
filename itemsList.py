@@ -21,7 +21,7 @@ class ItemList():
             MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
             #increase movement
             #reload speed
-            #ammo cap
+            BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"increases magazine capacity by current count x {BANANA_MAG_VALUE}", RARITY : WHITE},
             ##########on death items##########
             DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
             #3 second shield
@@ -77,6 +77,12 @@ class ItemList():
     def getAccuracy(self) ->float:
         return self.all_items[THREADED_BARREL_NAME][COUNT] * THREADED_BARREL_VALUE
     
+    def getAmmoCapacityCount(self) ->int:
+        return self.all_items[BANANA_MAG_NAME][COUNT] * BANANA_MAG_VALUE
+
+    def getGunPowderAOE(self) ->float:
+        return self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] * EXTRA_GUNPOWDER_RADIUS
+
     def getBulletCount(self) -> int:
         bullets_produced = 0
         bullet_odds = self.all_items[GHOST_LOADING_NAME][COUNT] * GHOST_LOADING_VALUE

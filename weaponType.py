@@ -6,6 +6,7 @@ from particleManager import ParticleManager
 from itemsList import ItemList
 from temporaryTextObject import TextObject
 from audioManager import AudioManager
+from itemsList import ItemList
 
 avaliable_weapons = [
     {"gun type": "pistol", "fire rate": PISTOL_FIRE_RATE, "damage": PISTOL_DAMAGE, "bullet speed": PISTOL_SHOOT_SPEED, "radius": PISTOL_SHOT_RADIUS, "accuracy": PISTOL_ACCURACY, "bullet count": PISTOL_PELLETS, "ammo capacity": PISTOL_AMMO_CAPACITY, "reload time" : PISTOL_RELOAD},
@@ -20,6 +21,8 @@ class WeaponType(pygame.sprite.Sprite):
             super().__init__(self.containers)
         else:
             super().__init__()
+        self.our_items_list = ItemList()
+
         self.__current_weapon_position = len(avaliable_weapons)
         self.shot_delay = None
         self.shot_damage = None
@@ -71,7 +74,7 @@ class WeaponType(pygame.sprite.Sprite):
 
             
     def __getMaxAmmoCap(self):
-        return self.ammo_capacity #TODO add modifers from items list
+        return self.ammo_capacity + self.our_items_list.getAmmoCapacityCount()
     
     def __getReloadTime(self):
         return self.reload_time #TODO add modifiers
