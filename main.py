@@ -14,6 +14,7 @@ from itemObject import ItemObject
 from temporaryTextObject import TextObject
 from explode import Explode
 from itemsList import ItemList
+from playerDeathDraw import PlayerDeathDraw
 
 our_list = ItemList()
 
@@ -36,6 +37,7 @@ def color_transition(my_player):
     b = int(center_RGB[2] + (-center_RGB[2] * normalize_distance))
 
     return (r,g,b)
+    
 
 def render_game_objects(screen, drawable, my_player, playerDependentDraw):
     screen.fill(color_transition(my_player))
@@ -59,9 +61,11 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 
     for single_enemy in all_enemies:     #collision check
         single_enemy.pathing(my_player.position, delta_time)
-        if single_enemy.checkCollision(my_player):
+        if single_enemy.checkCollision(my_player) and not my_player.is_player_dead:
             print("GAME OVER!")
-            sys.exit()
+            #sys.exit()
+            PlayerDeathDraw(my_player.position)
+            my_player.killPlayer()
         for single_shot in shots:
             if single_shot.checkCollision(single_enemy):
                 single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
@@ -110,6 +114,7 @@ def main():
     ItemObject.containers = (drawable, all_pickup) #add 'allexp'
     TextObject.containers = (updatable, drawable)
     Explode.containers = (drawable, explode_radius, updatable)
+    PlayerDeathDraw.containers = (drawable, updatable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()

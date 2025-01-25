@@ -18,6 +18,8 @@ class Player(CircleShape):
         self.our_items_list = ItemList()
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
 
+        self.is_player_dead = False
+
     def getRequiredExp(self):
         return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO
 
@@ -49,6 +51,8 @@ class Player(CircleShape):
         screen.blit(text, pygame.Vector2(PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y - UI_PLAYER_LVL_OFFSET))
 
     def draw(self, screen):
+        if self.is_player_dead: return
+
         pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
         self.__drawXpBar(screen)
         self.__drawPlayerLvl(screen)
@@ -66,7 +70,12 @@ class Player(CircleShape):
     def shoot(self):
         self.current_weapon.shoot(self.position, self.rotation, self.current_lvl)
 
+    def killPlayer(self):
+        self.is_player_dead = True
+
     def update(self, delta_time):
+        if self.is_player_dead: return
+
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:
