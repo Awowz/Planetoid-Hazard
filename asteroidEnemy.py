@@ -11,6 +11,7 @@ class AsteroidEnemy(BaseEnemy):
         
 
     def takeDamage(self, dmg):
+        self.startDamageIndicator()
         self.health -= dmg
         self.our_audio_manager.playAudioImpact()
         if self.health <= 0:
@@ -31,9 +32,10 @@ class AsteroidEnemy(BaseEnemy):
 
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "red", self.position, self.radius, 2)
+        pygame.draw.circle(screen, self.color, self.position, self.radius, 2)
 
     def update(self, delta_time):
+        super().update(delta_time)
         self.position += self.velocity * self.speed * delta_time
 
 
