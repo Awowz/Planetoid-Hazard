@@ -5,6 +5,7 @@ from constants import *
 from asteroidEnemy import AsteroidEnemy
 from meleeEnemy import MeleeEnemy
 from itemsList import ItemList
+from chestObject import Chest
 enemy_types = ["asteroid", "melee"]
 
 class GameDirector(pygame.sprite.Sprite):
@@ -82,8 +83,8 @@ class GameDirector(pygame.sprite.Sprite):
         if self.tower_remaining_time <= 0:
             self.tower_remaining_time = TOWER_TIMER_LENGTH
             self.current_dificulty += 1
-            #TODO SPAWN CHEST
-            self.our_item_list.spawn_item(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+            self.spawnReward()
+            
 
         if self.__getEnemySpawnTime() <= self.time_passed_till_enemy_spawn:
             self.time_passed_till_enemy_spawn = 0            
@@ -94,3 +95,6 @@ class GameDirector(pygame.sprite.Sprite):
     
     def expFormula(self,base):
         return self.current_dificulty * (base / 2)
+
+    def spawnReward(self):
+        Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))

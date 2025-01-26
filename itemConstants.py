@@ -12,6 +12,9 @@ RED = "red"
 ITEM_BOUCE_SCALE = 0.5
 ITEM_BOUCE_SPEED = 10
 
+ITEM_IMAGE_X_OFFSET = 25
+ITEM_IMAGE_Y_OFFSET = 25
+
 PLACE_HOLDER_IMAGE = "Assets/placeholder.png"
 
 DUD_AIRSTRIKE_NAME = "dud airstrike"

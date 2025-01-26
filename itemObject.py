@@ -14,9 +14,11 @@ class ItemObject(CircleShape):
         self.my_item_str = item_str
         self.item_desct = item_desct
         self.our_item_list = itemsList.ItemList()
+        self.image_offset = pygame.Vector2(-ITEM_IMAGE_X_OFFSET, -ITEM_IMAGE_Y_OFFSET)
         self.imageObject = None
         self.getImage()
 
+        self.is_chest_item = False
         
         self.time_elapsed = 0
         self.speed = ITEM_BOUCE_SPEED
@@ -32,12 +34,14 @@ class ItemObject(CircleShape):
             print("error with image path")
             self.imageObject = pygame.image.load(PLACE_HOLDER_IMAGE)
         
-
+    def setChestObjectToTrue(self):
+        self.is_chest_item = True
 
     def draw(self, screen):
-        screen.blit(self.imageObject, self.position)
+        screen.blit(self.imageObject, self.position + self.image_offset)
 
     def checkCollision(self, target):##in main, change all_exp to all_pickups
+        if self.is_chest_item: return
         distance = self.position.distance_to(target.position)
         is_collided = distance <= self.radius + target.exp_radius_magnet
         if is_collided:

@@ -16,6 +16,7 @@ from explode import Explode
 from itemsList import ItemList
 from playerDeathDraw import PlayerDeathDraw
 from missleObject import Missle
+from chestObject import Chest
 
 our_list = ItemList()
 
@@ -124,6 +125,7 @@ def main():
     Explode.containers = (drawable, explode_radius, updatable)
     PlayerDeathDraw.containers = (drawable, updatable)
     Missle.containers = (drawable, shots, all_pathing_missle)
+    Chest.containers = (drawable, updatable, all_pickup)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
