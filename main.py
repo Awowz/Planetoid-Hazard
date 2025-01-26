@@ -15,6 +15,7 @@ from temporaryTextObject import TextObject
 from explode import Explode
 from itemsList import ItemList
 from playerDeathDraw import PlayerDeathDraw
+from missleObject import Missle
 
 our_list = ItemList()
 
@@ -52,7 +53,7 @@ def render_game_objects(screen, drawable, my_player, playerDependentDraw):
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -69,8 +70,12 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
         for single_shot in shots:
             if single_shot.checkCollision(single_enemy):
                 single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
+                
+                ##item checks
                 if our_list.canISpawnExpo():
                     Explode(single_shot.position, our_list.getGunPowderAOE(), my_player.current_weapon.shot_damage, single_enemy)
+                if our_list.canISpawnMissle():
+                    Missle(my_player.position, our_list.getMissleDmg())
                 single_shot.kill()
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
         for expo in explode_radius:
@@ -83,7 +88,9 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
     for single_exp in all_exp:
         single_exp.move_to_player(my_player, delta_time)
         
-        
+    for singe_missle in all_pathing_missle:
+        if len(all_enemies) != 0:
+            singe_missle.pathing(all_enemies.sprites()[0].position,delta_time)
     
 
 def main():
@@ -102,6 +109,7 @@ def main():
     all_exp = pygame.sprite.Group()
     all_pickup = pygame.sprite.Group()
     explode_radius = pygame.sprite.Group()
+    all_pathing_missle = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable, drawable, playerDependentDraw)
@@ -115,6 +123,7 @@ def main():
     TextObject.containers = (updatable, drawable)
     Explode.containers = (drawable, explode_radius, updatable)
     PlayerDeathDraw.containers = (drawable, updatable)
+    Missle.containers = (drawable, shots, all_pathing_missle)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
@@ -127,7 +136,7 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius)
+        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
 
         render_game_objects(screen, drawable, my_player, playerDependentDraw)
 

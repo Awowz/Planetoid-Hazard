@@ -33,7 +33,7 @@ class ItemList():
             #slow
             #stun
             #blead
-            #missle
+            POCKET_MISSLE_NAME : {COUNT : 1, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
             EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
             ##########uniques##########
             GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
@@ -95,6 +95,16 @@ class ItemList():
             return True
         return False
     
+    def canISpawnMissle(self) ->bool:
+        if self.all_items[POCKET_MISSLE_NAME][COUNT] == 0: return False
+        rng = random.randint(0,100)
+        if rng <= POCKET_MISSLE_ODDS:
+            return True
+        return False
+    
+    def getMissleDmg(self) ->float:
+        return self.all_items[POCKET_MISSLE_NAME][COUNT] * POCKET_MISSLE_DMG
+
     def getDudExploDmg(self) ->float:
         return self.all_items[DUD_AIRSTRIKE_NAME][COUNT] * DUD_AIRSTRIKE_DMG
     

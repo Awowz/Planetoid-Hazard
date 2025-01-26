@@ -75,6 +75,7 @@ class BaseEnemy(CircleShape):
 
     #for updating objects game logic
     def update(self, delta_time):
+        super().update(delta_time)
         self.updateTakeDamageIndicator(delta_time)
         pass
 
