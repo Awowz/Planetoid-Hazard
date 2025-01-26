@@ -29,6 +29,7 @@ class Player(CircleShape):
             self.current_exp = self.current_exp - self.getRequiredExp()
             self.current_lvl += 1
             self.particleManager.confetti(self.position)
+            self.our_items_list.spawn_item(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + (CHEST_TEXT_Y_OFFSET * 2)))
 
     def getPlayerExpRadius(self):
         return self.exp_radius_magnet + self.our_items_list.getMagnetRadius()
