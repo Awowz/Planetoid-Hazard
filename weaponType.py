@@ -78,12 +78,15 @@ class WeaponType(pygame.sprite.Sprite):
     
     def __getReloadTime(self):
         return self.reload_time * self.our_items_list.getReloadModifer()
+    
+    def __getFireRate(self):
+        return self.shot_delay * self.our_items_list.getFireRateModifer()
 
     def shoot(self, position, rotation, player_level=1):
         if self.current_ammo <= 0:
             self.__isCurrently_releading = True
 
-        if self.__time_passed >= self.shot_delay and not self.__isCurrently_releading:
+        if self.__time_passed >= self.__getFireRate() and not self.__isCurrently_releading:
             self.current_ammo -= 1
             for x in range(self.__getBulletCount()):
                 bullet = Shot(position.x, position.y, self.shot_radius, self.damageformula(player_level))

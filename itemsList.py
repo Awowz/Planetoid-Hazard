@@ -17,7 +17,7 @@ class ItemList():
         self.all_items = {
             ##########general stat upgrades##########
             THREADED_BARREL_NAME : {COUNT : 0, DESCRIPTION: f"increases accuracy of shots by current count x {THREADED_BARREL_VALUE}", RARITY : WHITE},
-            #shoot faster
+            TRIGGER_FINGER_NAME : {COUNT : 0, DESCRIPTION: f"increases firerate by urrent count x {TRIGGER_FINGER_VALUE}", RARITY : WHITE},
             MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
             #increase movement
             SPEED_LOADER_NAME : {COUNT : 0, DESCRIPTION: f"increases reload speed by current count x {SPEED_LOADER_VALUE}", RARITY : WHITE},
@@ -86,6 +86,10 @@ class ItemList():
     def getReloadModifer(self) ->float:
         if self.all_items[SPEED_LOADER_NAME][COUNT] == 0: return 1
         return (1 / (1 + (SPEED_LOADER_VALUE / 100) * self.all_items[SPEED_LOADER_NAME][COUNT]))
+    
+    def getFireRateModifer(self) ->float:
+        if self.all_items[TRIGGER_FINGER_NAME][COUNT] == 0: return 1
+        return (1 / (1 + (TRIGGER_FINGER_VALUE / 100) * self.all_items[TRIGGER_FINGER_NAME][COUNT]))
 
     def canISpawnExpo(self) ->bool:
         if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:
