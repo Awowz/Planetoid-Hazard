@@ -2,6 +2,7 @@ from __future__ import annotations
 import itemsList
 import pygame
 import os
+import math
 from circleshape import CircleShape
 from temporaryTextObject import TextObject
 
@@ -15,6 +16,11 @@ class ItemObject(CircleShape):
         self.our_item_list = itemsList.ItemList()
         self.imageObject = None
         self.getImage()
+
+        
+        self.time_elapsed = 0
+        self.speed = ITEM_BOUCE_SPEED
+        self.scale = ITEM_BOUCE_SCALE
 
     def getImage(self):
         fileName =  self.my_item_str + ".png"
@@ -41,3 +47,11 @@ class ItemObject(CircleShape):
         self.our_item_list.increase_count_of_item(self.my_item_str)
         TextObject(self.position, f"{self.my_item_str}:\n{self.item_desct}")
         self.kill()
+
+    def bounce(self):
+        return math.cos(self.time_elapsed * self.speed / math.pi) * self.scale
+
+
+    def update(self, delta_time):
+        self.time_elapsed += delta_time
+        self.position.y += self.bounce()

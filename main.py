@@ -111,7 +111,7 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
     ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
-    ItemObject.containers = (drawable, all_pickup) #add 'allexp'
+    ItemObject.containers = (updatable, drawable, all_pickup) #add 'allexp'
     TextObject.containers = (updatable, drawable)
     Explode.containers = (drawable, explode_radius, updatable)
     PlayerDeathDraw.containers = (drawable, updatable)

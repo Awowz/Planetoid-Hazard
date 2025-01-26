@@ -9,6 +9,9 @@ GREEN = "green"
 GREEN_ODDS = 98.89
 RED = "red"
 
+ITEM_BOUCE_SCALE = 0.5
+ITEM_BOUCE_SPEED = 10
+
 PLACE_HOLDER_IMAGE = "Assets/placeholder.png"
 
 DUD_AIRSTRIKE_NAME = "dud airstrike"
