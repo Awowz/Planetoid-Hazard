@@ -4,6 +4,8 @@ from expOrb import ExpOrb
 from particleManager import ParticleManager
 from constants import *
 from audioManager import AudioManager
+from itemsList import ItemList
+from explode import Explode
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):
@@ -20,6 +22,7 @@ class BaseEnemy(CircleShape):
         self.current_damage_indicator_time = 0
 
         self.our_audio_manager = AudioManager()
+        self.our_item_list = ItemList()
 
     def dropExpOrb(self):
         ExpOrb(self.position, self.exp_drop)
@@ -41,6 +44,10 @@ class BaseEnemy(CircleShape):
         b = abs(self.my_OG_color[2] - PARTICLE_ON_DEATH_COLOR_ADJUSTMENT)
         ParticleManager.on_death(ParticleManager(), self.position, (r,g,b),self.radius/2)
         self.dropExpOrb()
+
+        if self.our_item_list.canISpawnDudExpo():
+            Explode(self.position, self.our_item_list.getDudExploRadius(), self.our_item_list.getDudExploDmg(), self)
+
         return super().kill()
     
     def __changeColor(self):

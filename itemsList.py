@@ -23,7 +23,7 @@ class ItemList():
             #reload speed
             BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"increases magazine capacity by current count x {BANANA_MAG_VALUE}", RARITY : WHITE},
             ##########on death items##########
-            DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"10% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
+            DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"{DUD_AIRSTRIKE_ODDS}% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
             #3 second shield
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
@@ -87,6 +87,19 @@ class ItemList():
         if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:
             return True
         return False
+    
+    def canISpawnDudExpo(self) ->bool:
+        if self.all_items[DUD_AIRSTRIKE_NAME][COUNT] == 0: return False
+        rng = random.randint(0,100)
+        if rng <= DUD_AIRSTRIKE_ODDS:
+            return True
+        return False
+    
+    def getDudExploDmg(self) ->float:
+        return self.all_items[DUD_AIRSTRIKE_NAME][COUNT] * DUD_AIRSTRIKE_DMG
+    
+    def getDudExploRadius(self) ->int:
+        return DUD_AIRSTRIKE_RADIUS
 
 
     def getBulletCount(self) -> int:
