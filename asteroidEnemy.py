@@ -12,7 +12,7 @@ class AsteroidEnemy(BaseEnemy):
 
     def takeDamage(self, dmg):
         self.startDamageIndicator()
-        self.health -= dmg
+        self.health -= self.our_item_list.getArmorChippedDmg((self.health / self.max_health) * 100, dmg)
         self.our_audio_manager.playAudioImpact()
         if self.health <= 0 and not self.is_currently_splitting:
             self.is_currently_splitting = True

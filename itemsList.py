@@ -33,12 +33,12 @@ class ItemList():
             #slow
             #stun
             #blead
-            POCKET_MISSLE_NAME : {COUNT : 1, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
+            POCKET_MISSLE_NAME : {COUNT : 0, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
             EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
             ##########uniques##########
             GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
-            #75% damage to enemeis above 90& health
+            ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {ARMOR_CHIPPER_VALUE} x current count damage", RARITY: GREEN}
             #spawn landmine every tower cycle
             #spawn turret
             #first bullet in mag does 100% damage
@@ -88,6 +88,12 @@ class ItemList():
             return True
         return False
     
+    def getArmorChippedDmg(self, health_percent, dmg):
+        if self.all_items[ARMOR_CHIPPER_NAME][COUNT] == 0: return dmg
+        if health_percent >= ARMOR_CHIPPER_THRESHOLD:
+            return (self.all_items[ARMOR_CHIPPER_NAME][COUNT] * ARMOR_CHIPPER_VALUE) * dmg
+        return dmg
+
     def canISpawnDudExpo(self) ->bool:
         if self.all_items[DUD_AIRSTRIKE_NAME][COUNT] == 0: return False
         rng = random.randint(0,100)

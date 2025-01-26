@@ -13,6 +13,7 @@ class BaseEnemy(CircleShape):
         self.velocity = velocity
         self.color = color
         self.health = health
+        self.max_health = health
         self.exp_drop = exp_drop
         self.speed = speed
 
@@ -29,7 +30,7 @@ class BaseEnemy(CircleShape):
         
     def takeDamage(self, dmg):
         self.startDamageIndicator()
-        self.health -= dmg
+        self.health -= self.our_item_list.getArmorChippedDmg((self.health / self.max_health) * 100, dmg)
         self.our_audio_manager.playAudioImpact()
         if self.health < 0.001:
             self.kill()
