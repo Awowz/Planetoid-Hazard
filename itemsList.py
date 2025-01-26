@@ -20,7 +20,7 @@ class ItemList():
             #shoot faster
             MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
             #increase movement
-            #reload speed
+            SPEED_LOADER_NAME : {COUNT : 0, DESCRIPTION: f"increases reload speed by current count x {SPEED_LOADER_VALUE}", RARITY : WHITE},
             BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"increases magazine capacity by current count x {BANANA_MAG_VALUE}", RARITY : WHITE},
             ##########on death items##########
             DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"{DUD_AIRSTRIKE_ODDS}% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
@@ -82,6 +82,10 @@ class ItemList():
 
     def getGunPowderAOE(self) ->float:
         return self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] * EXTRA_GUNPOWDER_RADIUS
+    
+    def getReloadModifer(self) ->float:
+        if self.all_items[SPEED_LOADER_NAME][COUNT] == 0: return 1
+        return (1 / (1 + (SPEED_LOADER_VALUE / 100) * self.all_items[SPEED_LOADER_NAME][COUNT]))
 
     def canISpawnExpo(self) ->bool:
         if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:

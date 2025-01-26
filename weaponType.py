@@ -77,7 +77,7 @@ class WeaponType(pygame.sprite.Sprite):
         return self.ammo_capacity + self.our_items_list.getAmmoCapacityCount()
     
     def __getReloadTime(self):
-        return self.reload_time #TODO add modifiers
+        return self.reload_time * self.our_items_list.getReloadModifer()
 
     def shoot(self, position, rotation, player_level=1):
         if self.current_ammo <= 0:
