@@ -39,7 +39,8 @@ class ItemList():
             ##########uniques##########
             GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
-            ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {ARMOR_CHIPPER_VALUE} x current count damage", RARITY: GREEN}
+            ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {ARMOR_CHIPPER_VALUE} x current count damage", RARITY: GREEN},
+            ARMOR_PIERCING_ROUNDS_NAME: {COUNT : 0, DESCRIPTION: f"Bullets will peice enemies. {ARMOR_CHIPPER_NAME} enemy per count", RARITY : GREEN},
             #spawn landmine every tower cycle
             #spawn turret
             #first bullet in mag does 100% damage
@@ -95,6 +96,9 @@ class ItemList():
     def getFireRateModifer(self) ->float:
         if self.all_items[TRIGGER_FINGER_NAME][COUNT] == 0: return 1
         return (1 / (1 + (TRIGGER_FINGER_VALUE / 100) * self.all_items[TRIGGER_FINGER_NAME][COUNT]))
+    
+    def getPierceAmount(self) ->int:
+        return self.all_items[ARMOR_PIERCING_ROUNDS_NAME][COUNT] * ARMOR_PIERCING_ROUNDS_VALUE
 
     def canISpawnExpo(self) ->bool:
         if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:

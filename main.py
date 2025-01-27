@@ -82,7 +82,7 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
                     Explode(single_shot.position, our_list.getGunPowderAOE(), my_player.current_weapon.shot_damage, single_enemy)
                 if our_list.canISpawnMissle():
                     Missle(my_player.position, our_list.getMissleDmg())
-                single_shot.kill()
+                #single_shot.kill()
                 my_particle_manager.on_hit(single_shot.position, single_shot.velocity, particle_radius=(math.ceil(my_player.current_weapon.shot_radius / 2)))
         for expo in explode_radius:
             if expo.checkCollision(single_enemy) and not expo.isTargetAlreadyTakenDamage(single_enemy):
