@@ -64,14 +64,19 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
     for single_enemy in all_enemies:     #collision check
         single_enemy.pathing(my_player.position, delta_time)
         if single_enemy.checkCollision(my_player) and not my_player.is_player_dead:
-            print("GAME OVER!")
-            #sys.exit()
-            PlayerDeathDraw(my_player.position)
-            my_player.killPlayer()
+            if my_player.canIKillPlayer():
+                print("GAME OVER!")
+                #sys.exit()
+                PlayerDeathDraw(my_player.position)
+            else:
+                single_enemy.kill()
+                pass
+            
         for single_shot in shots:
             if single_shot.checkCollision(single_enemy):
-                single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
-                
+                has_single_enemy_died = single_enemy.takeDamage(single_shot.damage)#my_player.current_weapon.getDamage())
+                if has_single_enemy_died:
+                    my_player.setShieldActive()
                 ##item checks
                 if our_list.canISpawnExpo():
                     Explode(single_shot.position, our_list.getGunPowderAOE(), my_player.current_weapon.shot_damage, single_enemy)

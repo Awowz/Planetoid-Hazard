@@ -17,6 +17,8 @@ class AsteroidEnemy(BaseEnemy):
         if self.health <= 0 and not self.is_currently_splitting:
             self.is_currently_splitting = True
             self.split()
+            return True
+        return False
 
     def split(self):
         self.kill()

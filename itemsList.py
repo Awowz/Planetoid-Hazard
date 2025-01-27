@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from constants import *
 from itemConstants import *
 from itemObject import ItemObject
@@ -24,7 +25,7 @@ class ItemList():
             BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"increases magazine capacity by current count x {BANANA_MAG_VALUE}", RARITY : WHITE},
             ##########on death items##########
             DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"{DUD_AIRSTRIKE_ODDS}% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
-            #3 second shield
+            BLOOD_SUSTAINED_SHIELD_NAME : {COUNT : 0, DESCRIPTION: f"kills grant a 2.5 second long sheild. 2.5 + 2log(current count)", RARITY : RED},
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
             ##########on hit##########
@@ -82,6 +83,10 @@ class ItemList():
 
     def getGunPowderAOE(self) ->float:
         return self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] * EXTRA_GUNPOWDER_RADIUS
+    
+    def getShieldDurration(self) ->float:
+        if self.all_items[BLOOD_SUSTAINED_SHIELD_NAME][COUNT] == 0: return 0
+        return BLOOD_SUSTAINED_SHIELD_VALUE + (2 * math.log(self.all_items[BLOOD_SUSTAINED_SHIELD_NAME][COUNT]))
     
     def getReloadModifer(self) ->float:
         if self.all_items[SPEED_LOADER_NAME][COUNT] == 0: return 1

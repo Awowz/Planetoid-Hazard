@@ -19,6 +19,8 @@ class Player(CircleShape):
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
 
         self.is_player_dead = False
+        self.is_shield_active = False
+        self.remaining_shield_time = 0
 
     def getRequiredExp(self):
         return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO
@@ -51,12 +53,27 @@ class Player(CircleShape):
         text = self.font.render(f"{self.current_lvl} LVL", True, UI_FONT_COLOR)
         screen.blit(text, pygame.Vector2(PLAYER_EXP_DISPLAY_POSITION_X, PLAYER_EXP_DISPLAY_POSITION_Y - UI_PLAYER_LVL_OFFSET))
 
+    def __drawShield(self, screen):
+        if not self.is_shield_active: return
+        normalize = self.remaining_shield_time / self.our_items_list.getShieldDurration()
+
+        forward = pygame.Vector2(0,1).rotate(self.rotation) * 2
+        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius * 1.5
+
+        new_bottom_left = self.position - (forward * self.radius - right) * normalize
+        new_bottom_right = self.position - (forward * self.radius + right) * normalize
+        new_top_right = self.position + (forward * self.radius - right) * normalize
+        new_top_left = self.position + (forward * self.radius + right) * normalize
+        pygame.draw.polygon(screen, SHIELD_COLOR, [new_bottom_right, new_bottom_left,new_top_left, new_top_right], 1)
+        
+
     def draw(self, screen):
         if self.is_player_dead: return
 
         pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
         self.__drawXpBar(screen)
         self.__drawPlayerLvl(screen)
+        self.__drawShield(screen)
         
 
     def rotate(self, delta_time):
@@ -71,8 +88,26 @@ class Player(CircleShape):
     def shoot(self):
         self.current_weapon.shoot(self.position, self.rotation, self.current_lvl)
 
-    def killPlayer(self):
+    def setShieldActive(self):
+        if self.our_items_list.getShieldDurration() == 0: return
+        self.is_shield_active = True
+        self.remaining_shield_time = self.our_items_list.getShieldDurration()
+
+    def reduceShieldTimer(self, delta_time):
+        self.remaining_shield_time -= delta_time
+        if self.remaining_shield_time <= 0:
+            self.is_shield_active = False
+
+    def killShield(self):
+        self.is_shield_active = False
+        self.remaining_shield_time = 0
+
+    def canIKillPlayer(self):
+        if self.is_shield_active:
+            self.killShield()
+            return False
         self.is_player_dead = True
+        return True
 
     def update(self, delta_time):
         if self.is_player_dead: return
@@ -91,3 +126,4 @@ class Player(CircleShape):
             self.shoot()
         if keys[pygame.K_e]:
             self.current_weapon.swap_weapon()
+        self.reduceShieldTimer(delta_time)

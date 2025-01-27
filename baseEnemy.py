@@ -34,6 +34,8 @@ class BaseEnemy(CircleShape):
         self.our_audio_manager.playAudioImpact()
         if self.health < 0.001:
             self.kill()
+            return True
+        return False
 
     def startDamageIndicator(self):
         self.is_damage_indicated = True
