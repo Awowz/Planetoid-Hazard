@@ -6,6 +6,7 @@ from constants import *
 from audioManager import AudioManager
 from itemsList import ItemList
 from explode import Explode
+from screenShakeManager import ScreenShakeManager
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):
@@ -24,6 +25,7 @@ class BaseEnemy(CircleShape):
 
         self.our_audio_manager = AudioManager()
         self.our_item_list = ItemList()
+        self.our_screen_shake = ScreenShakeManager()
 
     def dropExpOrb(self):
         ExpOrb(self.position, self.exp_drop)
@@ -51,6 +53,7 @@ class BaseEnemy(CircleShape):
         if self.our_item_list.canISpawnDudExpo():
             Explode(self.position, self.our_item_list.getDudExploRadius(), self.our_item_list.getDudExploDmg(), self)
 
+        self.our_screen_shake.shakeScreen(3,0.1)
         return super().kill()
     
     def __changeColor(self):

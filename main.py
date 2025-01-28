@@ -17,8 +17,10 @@ from itemsList import ItemList
 from playerDeathDraw import PlayerDeathDraw
 from missleObject import Missle
 from chestObject import Chest
+from screenShakeManager import ScreenShakeManager
 
 our_list = ItemList()
+our_shake = ScreenShakeManager()
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -41,7 +43,7 @@ def color_transition(my_player):
     return (r,g,b)
     
 
-def render_game_objects(screen, drawable, my_player, playerDependentDraw):
+def render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen):
     screen.fill(color_transition(my_player))
 
     for draw_object in drawable:
@@ -50,6 +52,7 @@ def render_game_objects(screen, drawable, my_player, playerDependentDraw):
     for draw_object_near_player in playerDependentDraw:
         draw_object_near_player.playerDependentDraw(screen, my_player)
 
+    our_shake.drawScreenShake(screen,og_screen)
     # the following command should be the last line for rendering
     pygame.display.flip()
 
@@ -97,13 +100,16 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
     for singe_missle in all_pathing_missle:
         if len(all_enemies) != 0:
             singe_missle.pathing(all_enemies.sprites()[0].position,delta_time)
+
+    our_shake.update(delta_time)
     
 
 def main():
     pygame.init()
     clock_object = pygame.time.Clock()
     delta_time = 0 ## amount of time passed since last frame was drawn
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    og_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = og_screen.copy()
   
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -136,6 +142,8 @@ def main():
     my_game_director = GameDirector()
     my_particle_manager = ParticleManager()
 
+    
+
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
 
     while True:
@@ -144,8 +152,9 @@ def main():
                 return
         
         update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
-
-        render_game_objects(screen, drawable, my_player, playerDependentDraw)
+        
+        render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
+        
 
         ##after the main gameloop has run run tick
         delta_time = clock_object.tick(60) / 1000 
