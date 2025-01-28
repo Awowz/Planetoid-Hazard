@@ -17,6 +17,7 @@ class BaseEnemy(CircleShape):
         self.max_health = health
         self.exp_drop = exp_drop
         self.speed = speed
+        self.is_currently_dying = False
 
         self.is_damage_indicated = False
         self.my_OG_color = self.color
@@ -34,7 +35,8 @@ class BaseEnemy(CircleShape):
         self.startDamageIndicator()
         self.health -= self.our_item_list.getArmorChippedDmg((self.health / self.max_health) * 100, dmg)
         self.our_audio_manager.playAudioImpact()
-        if self.health < 0.001:
+        if self.health < 0.001 and not self.is_currently_dying:
+            self.is_currently_dying = True
             self.kill()
             return True
         return False

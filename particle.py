@@ -20,4 +20,5 @@ class Particle(CircleShape):
         self.velocity += self.deceleration * delta_time
         if self.time_elipced >= self.fade_time:
             self.kill()
+            del self
         

@@ -9,6 +9,7 @@ class Missle(Shot):
         super().__init__(position.x, position.y, POCKET_MISSLE_RADIUS, dmg)
         self.rotation = 0
         self.speed = POCKET_MISSLE_SPEED
+        self.times_pierced = float('inf')
 
     def rectangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)

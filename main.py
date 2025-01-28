@@ -101,6 +101,7 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
         if len(all_enemies) != 0:
             singe_missle.pathing(all_enemies.sprites()[0].position,delta_time)
 
+
     our_shake.update(delta_time)
     
 
