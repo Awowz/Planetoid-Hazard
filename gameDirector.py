@@ -42,6 +42,7 @@ class GameDirector(pygame.sprite.Sprite):
         self.current_dificulty = 0
         self.time_passed_till_enemy_spawn = 0
         self.our_item_list = ItemList()
+        self.text = pygame.font.Font(None, UI_FONT_SIZE)
 
     def __getScreenSpawnCap(self):
         return GAME_DIRECTOR_SCREEN_SPAWN_CAP + ((GAME_DIRECTOR_SCREEN_SPAWN_CAP * self.current_dificulty ) // GAME_DIRECTOR_SCREEN_SPAWN_DIVIDING_FACTOR)
@@ -98,3 +99,9 @@ class GameDirector(pygame.sprite.Sprite):
 
     def spawnReward(self):
         Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+
+
+
+    def draw(self, screen):
+        text = pygame.font.Font(None, UI_FONT_SIZE).render("%.3f" % self.tower_remaining_time, True, UI_FONT_COLOR)
+        screen.blit(text, pygame.Vector2(SCREEN_WIDTH / 2 - TOWER_TIMER_X_OFFSET, SCREEN_HEIGHT / 2 - TOWER_TIMER_Y_OFFSET))

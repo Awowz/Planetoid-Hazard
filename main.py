@@ -128,7 +128,7 @@ def main():
     WeaponType.containers = (updatable, drawable, playerDependentDraw)
     Player.containers = (updatable, drawable)
     BaseEnemy.containers = (all_enemies, updatable, drawable, pathing)
-    GameDirector.containers = (checkProgress)
+    GameDirector.containers = (checkProgress, drawable)
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
     ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
