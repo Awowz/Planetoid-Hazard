@@ -7,6 +7,7 @@ from circleshape import CircleShape
 from temporaryTextObject import TextObject
 
 from itemConstants import *
+from constants import *
 
 class ItemObject(CircleShape):
     def __init__(self, x, y, radius, item_str, item_desct):
@@ -49,7 +50,7 @@ class ItemObject(CircleShape):
 
     def givePlayerItem(self):
         self.our_item_list.increase_count_of_item(self.my_item_str)
-        TextObject(self.position, f"{self.my_item_str}:\n{self.item_desct}")
+        TextObject(self.position + pygame.Vector2(TEXT_OBJECT_X_OFFSET, TEXT_OBJECT_Y_OFFSET), f"{self.my_item_str}    {self.item_desct}")
         self.kill()
 
     def bounce(self):

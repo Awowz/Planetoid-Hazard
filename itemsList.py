@@ -31,7 +31,7 @@ class ItemList():
             ##########on hit##########
             #each accurate shot can have a chance of going back into the mag
             #10% to do double damage
-            #slow
+            GOO_GLIME_NAME : {COUNT : 1, DESCRIPTION: f"On hit reduce enemy movement by {GOO_GLIME_VALUE}% x current count", RARITY : GREEN},
             #stun
             #blead
             POCKET_MISSLE_NAME : {COUNT : 0, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
@@ -99,6 +99,10 @@ class ItemList():
     
     def getPierceAmount(self) ->int:
         return self.all_items[ARMOR_PIERCING_ROUNDS_NAME][COUNT] * ARMOR_PIERCING_ROUNDS_VALUE
+    
+    def getMovmentReductionPercent(self) ->float:
+        if self.all_items[GOO_GLIME_NAME][COUNT] == 0: return 1
+        return (1 / (1 + (GOO_GLIME_VALUE / 100) * self.all_items[GOO_GLIME_NAME][COUNT]))
 
     def canISpawnExpo(self) ->bool:
         if self.all_items[EXTRA_GUNPOWDER_NAME][COUNT] >= 1:

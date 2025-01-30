@@ -14,6 +14,7 @@ class AsteroidEnemy(BaseEnemy):
         self.startDamageIndicator()
         self.health -= self.our_item_list.getArmorChippedDmg((self.health / self.max_health) * 100, dmg)
         self.our_audio_manager.playAudioImpact()
+        self.speed = self.max_speed * self.our_item_list.getMovmentReductionPercent()
         if self.health <= 0 and not self.is_currently_dying:
             self.is_currently_dying = True
             self.split()

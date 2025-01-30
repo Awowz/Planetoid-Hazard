@@ -92,7 +92,7 @@ class GameDirector(pygame.sprite.Sprite):
             self.spawn()
 
     def healthFormula(self,base):
-        return self.current_dificulty * 5
+        return self.current_dificulty * (base / 2)
     
     def expFormula(self,base):
         return self.current_dificulty * (base / 2)
