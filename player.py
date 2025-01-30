@@ -17,6 +17,7 @@ class Player(CircleShape):
         self.exp_radius_magnet = PLAYER_EXP_MAGNET
         self.our_items_list = ItemList()
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
+        self.player_turn_speed = PLAYER_TURN_SPEED
 
         self.is_player_dead = False
         self.is_shield_active = False
@@ -77,7 +78,7 @@ class Player(CircleShape):
         
 
     def rotate(self, delta_time):
-        self.rotation += PLAYER_TURN_SPEED * delta_time
+        self.rotation += self.player_turn_speed * delta_time
 
     def move(self, delta_time):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
@@ -113,6 +114,11 @@ class Player(CircleShape):
         if self.is_player_dead: return
 
         keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LSHIFT]:
+            self.player_turn_speed = PLAYER_TURN_SPEED / 2
+        else:
+            self.player_turn_speed = PLAYER_TURN_SPEED
 
         if keys[pygame.K_w]:
             self.move(delta_time)

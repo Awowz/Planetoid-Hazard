@@ -145,7 +145,7 @@ def main():
 
     
 
-    print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT")
+    print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT \nHOLD LSHIFT TO SLOW AIM")
 
     while True:
         for event in pygame.event.get():
