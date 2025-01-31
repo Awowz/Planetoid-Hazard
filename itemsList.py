@@ -29,10 +29,11 @@ class ItemList():
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
             ##########on hit##########
+            #knockbak
             #each accurate shot can have a chance of going back into the mag
             #10% to do double damage
-            GOO_GLIME_NAME : {COUNT : 1, DESCRIPTION: f"On hit reduce enemy movement by {GOO_GLIME_VALUE}% x current count", RARITY : GREEN},
-            #stun
+            GOO_GLIME_NAME : {COUNT : 0, DESCRIPTION: f"On hit reduce enemy movement by {GOO_GLIME_VALUE}% x current count", RARITY : GREEN},
+            POCKET_SAND_NAME : {COUNT : 0, DESCRIPTION: f"On hit {POCKET_SAND_ODDS} chance to stun enemy for {POCKET_SAND_DURATION} time. {POCKET_SAND_ODDS}% x current count", RARITY : GREEN},
             #blead
             POCKET_MISSLE_NAME : {COUNT : 0, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
             EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
@@ -44,6 +45,8 @@ class ItemList():
             #spawn landmine every tower cycle
             #spawn turret
             #first bullet in mag does 100% damage
+            #black hole, enemies get sucked into it
+            #increase aoe size? hydogen tank?
             
             
         }
@@ -114,6 +117,19 @@ class ItemList():
         if health_percent >= ARMOR_CHIPPER_THRESHOLD:
             return (self.all_items[ARMOR_CHIPPER_NAME][COUNT] * ARMOR_CHIPPER_VALUE) * dmg
         return dmg
+    
+    def isStunEnemy(self):
+        if self.all_items[POCKET_SAND_NAME][COUNT] == 0: return False
+        odds = (1 - 1 / (1 + (POCKET_SAND_ODDS / 100) * self.all_items[POCKET_SAND_NAME][COUNT])) * 100
+        rng = random.randint(0,100)
+        if round(odds) >= rng:
+            return True
+        return False
+    
+    def getStunDuration(self):
+        return POCKET_SAND_DURATION
+
+
 
     def canISpawnDudExpo(self) ->bool:
         if self.all_items[DUD_AIRSTRIKE_NAME][COUNT] == 0: return False
