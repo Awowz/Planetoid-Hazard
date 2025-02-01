@@ -17,31 +17,31 @@ class ItemList():
     def init_inventory(self):
         self.all_items = {
             ##########general stat upgrades##########
-            THREADED_BARREL_NAME : {COUNT : 0, DESCRIPTION: f"increases accuracy of shots by current count x {THREADED_BARREL_VALUE}", RARITY : WHITE},
-            TRIGGER_FINGER_NAME : {COUNT : 0, DESCRIPTION: f"increases firerate by urrent count x {TRIGGER_FINGER_VALUE}", RARITY : WHITE},
-            MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"increases range of xp pickup by current count x {MAGNET_VALUE}", RARITY : WHITE},
+            THREADED_BARREL_NAME : {COUNT : 0, DESCRIPTION: f"Accuracy of shots increased by {(THREADED_BARREL_VALUE * 10)}%", RARITY : WHITE},
+            TRIGGER_FINGER_NAME : {COUNT : 0, DESCRIPTION: f"Firerate increased by {TRIGGER_FINGER_VALUE}%", RARITY : WHITE},
+            MAGNET_NAME : {COUNT : 0, DESCRIPTION: f"Increases range of xp pickup by {MAGNET_VALUE} feet", RARITY : WHITE},
             #increase movement
-            SPEED_LOADER_NAME : {COUNT : 0, DESCRIPTION: f"increases reload speed by current count x {SPEED_LOADER_VALUE}", RARITY : WHITE},
-            BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"increases magazine capacity by current count x {BANANA_MAG_VALUE}", RARITY : WHITE},
+            SPEED_LOADER_NAME : {COUNT : 0, DESCRIPTION: f"Increases reload speed by {SPEED_LOADER_VALUE}%", RARITY : WHITE},
+            BANANA_MAG_NAME : {COUNT : 0, DESCRIPTION: f"Increases magazine capacity {BANANA_MAG_VALUE} shots", RARITY : WHITE},
             ##########on death items##########
-            DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"{DUD_AIRSTRIKE_ODDS}% chance for enemys to explode on death dealing current count x {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
-            BLOOD_SUSTAINED_SHIELD_NAME : {COUNT : 0, DESCRIPTION: f"kills grant a 2.5 second long sheild. 2.5 + 2log(current count)", RARITY : RED},
+            DUD_AIRSTRIKE_NAME : {COUNT : 0, DESCRIPTION: f"On enemy death there is a {DUD_AIRSTRIKE_ODDS}% chance for enemys to explode {DUD_AIRSTRIKE_DMG}", RARITY : GREEN},
+            BLOOD_SUSTAINED_SHIELD_NAME : {COUNT : 0, DESCRIPTION: f"Kills will grant a {BLOOD_SUSTAINED_SHIELD_VALUE} second long sheild", RARITY : RED},
             #burn damage aoe
             #drop orb of sheild (10 orbs grants 1 shield) (can stack shield, shield kills and breaks)
             ##########on hit##########
             #knockbak
             #each accurate shot can have a chance of going back into the mag
             #10% to do double damage
-            GOO_GLIME_NAME : {COUNT : 0, DESCRIPTION: f"On hit reduce enemy movement by {GOO_GLIME_VALUE}% x current count", RARITY : GREEN},
-            POCKET_SAND_NAME : {COUNT : 0, DESCRIPTION: f"On hit {POCKET_SAND_ODDS} chance to stun enemy for {POCKET_SAND_DURATION} time. {POCKET_SAND_ODDS}% x current count", RARITY : GREEN},
+            GOO_GLIME_NAME : {COUNT : 0, DESCRIPTION: f"On hit, reduce enemy movement by {GOO_GLIME_VALUE}%", RARITY : GREEN},
+            POCKET_SAND_NAME : {COUNT : 0, DESCRIPTION: f"On hit, {POCKET_SAND_ODDS}% chance to stun enemy for {POCKET_SAND_DURATION} seconds", RARITY : GREEN},
             #blead
-            POCKET_MISSLE_NAME : {COUNT : 0, DESCRIPTION: f"on hit {POCKET_MISSLE_ODDS}% chance to shoot a homing missle. count x {POCKET_MISSLE_DMG}", RARITY : GREEN},
-            EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"all shots are now AOE. radius is {EXTRA_GUNPOWDER_RADIUS} x current count", RARITY : RED},
+            POCKET_MISSLE_NAME : {COUNT : 0, DESCRIPTION: f"On hit, {POCKET_MISSLE_ODDS}% chance to shoot a homing missle", RARITY : GREEN},
+            EXTRA_GUNPOWDER_NAME : {COUNT : 0, DESCRIPTION: f"All shots are now explode on impact", RARITY : RED},
             ##########uniques##########
-            GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"chance to shoot twice when shooting, {GHOST_LOADING_VALUE}% x current count", RARITY : GREEN},
+            GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"{GHOST_LOADING_VALUE}% chance to shoot another bullet", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
-            ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {ARMOR_CHIPPER_VALUE} x current count damage", RARITY: GREEN},
-            ARMOR_PIERCING_ROUNDS_NAME: {COUNT : 0, DESCRIPTION: f"Bullets will peice enemies. {ARMOR_CHIPPER_NAME} enemy per count", RARITY : GREEN},
+            ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"Enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {(ARMOR_CHIPPER_VALUE * 100)}% more damage", RARITY: GREEN},
+            ARMOR_PIERCING_ROUNDS_NAME: {COUNT : 0, DESCRIPTION: f"Bullets will now peice enemies", RARITY : GREEN},
             #spawn landmine every tower cycle
             #spawn turret
             #first bullet in mag does 100% damage
