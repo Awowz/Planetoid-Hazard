@@ -140,7 +140,7 @@ class WeaponType(pygame.sprite.Sprite):
 
     def playerDependentDraw(self, screen, my_player):
         if self.__isCurrently_releading:
-            pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [my_player.position.x, my_player.position.y, PLAYER_RELOAD_DISPLAY_LENGTH + PLAYER_RELOAD_DISPLAY_BORDER, PLAYER_RELOAD_DISPLAY_HEIGHT + PLAYER_RELOAD_DISPLAY_BORDER], 0)
+            pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [my_player.position.x - round(PLAYER_RELOAD_DISPLAY_LENGTH / 2), my_player.position.y + round(PLAYER_RELOAD_DISPLAY_HEIGHT * 7), PLAYER_RELOAD_DISPLAY_LENGTH + PLAYER_RELOAD_DISPLAY_BORDER, PLAYER_RELOAD_DISPLAY_HEIGHT + PLAYER_RELOAD_DISPLAY_BORDER], 0)
             normalize_length = (self.__time_passed_reloading + 0.01) / self.__getReloadTime()
-            pygame.draw.rect(screen, EXP_COLOR, [my_player.position.x, my_player.position.y, PLAYER_RELOAD_DISPLAY_LENGTH * normalize_length, PLAYER_RELOAD_DISPLAY_HEIGHT])
+            pygame.draw.rect(screen, EXP_COLOR, [my_player.position.x - round(PLAYER_RELOAD_DISPLAY_LENGTH / 2), my_player.position.y + round(PLAYER_RELOAD_DISPLAY_HEIGHT * 7), PLAYER_RELOAD_DISPLAY_LENGTH * normalize_length, PLAYER_RELOAD_DISPLAY_HEIGHT])
 
