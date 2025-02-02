@@ -103,7 +103,7 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 
 
     our_shake.update(delta_time)
-    
+
 
 def main():
     pygame.init()
@@ -142,7 +142,8 @@ def main():
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
     my_particle_manager = ParticleManager()
-
+    is_game_state_paused = False
+    pauce_timer = PAUSE_TIME_LIMIT
     
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT \nHOLD LSHIFT TO SLOW AIM")
@@ -151,10 +152,19 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            
+        keys = pygame.key.get_pressed()
+        pauce_timer -= delta_time
+        if keys[pygame.K_ESCAPE] and pauce_timer <= 0:
+            is_game_state_paused = not is_game_state_paused
+            pauce_timer = PAUSE_TIME_LIMIT
+
+        if is_game_state_paused:
+            pass
+        else:
+            update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
         
-        update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
-        
-        render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
+            render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
         
 
         ##after the main gameloop has run run tick
