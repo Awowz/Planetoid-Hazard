@@ -104,6 +104,17 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 
     our_shake.update(delta_time)
 
+def pause_update(delta_time):
+    pass
+
+def pause_draw(screen, og_screen):
+    #screen.fill(pygame.color.Color(35,35,35, 0))
+    text = pygame.font.Font(None, PLAYER_DEATH_UI_FONT).render("GAME PAUSED", True, UI_FONT_COLOR)
+    screen.blit(text, pygame.Vector2((SCREEN_WIDTH / PAUSE_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_TEXT_Y_OFFSET)))
+
+    og_screen.blit(screen, (0,0))
+    pygame.display.flip()
+
 
 def main():
     pygame.init()
@@ -160,10 +171,11 @@ def main():
             pauce_timer = PAUSE_TIME_LIMIT
 
         if is_game_state_paused:
-            pass
+            pause_update(delta_time)
+            pause_draw(screen, og_screen)
         else:
             update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
-        
+
             render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
         
 
