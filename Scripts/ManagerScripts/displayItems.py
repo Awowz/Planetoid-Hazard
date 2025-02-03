@@ -9,7 +9,7 @@ class DisplayItems():
     def __init__(self):
         self.our_list = ItemList()
         self.current_layer_items_objects = []
-        self.start_of_list_position = pygame.Vector2(SCREEN_WIDTH / 6, SCREEN_HEIGHT / 2)
+        self.start_of_list_position = pygame.Vector2(SCREEN_WIDTH / 6, SCREEN_HEIGHT / 1.8)
         self.__init_fill_items()
         
     

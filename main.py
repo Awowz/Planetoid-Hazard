@@ -19,6 +19,8 @@ from Scripts.HitBoxObjects.InteractionObjects.missleObject import Missle
 from Scripts.HitBoxObjects.InteractionObjects.chestObject import Chest
 from Scripts.ManagerScripts.screenShakeManager import ScreenShakeManager
 from Scripts.ManagerScripts.displayItems import DisplayItems
+from Scripts.HitBoxObjects.mouse import Mouse
+from Scripts.ManagerScripts.itemTextBox import ItemTextBox
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
@@ -105,15 +107,27 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 
     our_shake.update(delta_time)
 
-def pause_update(delta_time):
-    pass
+def pause_update(delta_time, my_mouse, my_item_text_box, pause_updateable, pause_item):
+    for update_object in pause_updateable:
+        update_object.pauseUpdate(delta_time)
+    
+    is_item_being_highlighted = False
+    for single_pickup in pause_item:
+        if my_mouse.checkCollision(single_pickup):
+            is_item_being_highlighted = True
+            my_item_text_box.setIsVisable(single_pickup.my_item_str, single_pickup.item_desct)
+        elif not is_item_being_highlighted:
+            my_item_text_box.setNotVisable()
 
-def pause_draw(screen, og_screen, display_all_items):
+def pause_draw(screen, og_screen, display_all_items, pause_drawable):
     screen.fill(pygame.color.Color(BACKGROUND_COLOR_DEFAULT))
     pause_text = pygame.font.Font(None, PLAYER_DEATH_UI_FONT).render("GAME PAUSED", True, UI_FONT_COLOR)
     esc_text = pygame.font.Font(None, UI_FONT_SIZE).render("ESC to resume", True, UI_FONT_COLOR)
     screen.blit(pause_text, pygame.Vector2((SCREEN_WIDTH / PAUSE_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_TEXT_Y_OFFSET)))
     screen.blit(esc_text, pygame.Vector2((SCREEN_WIDTH / PAUSE_ESC_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_ESC_TEXT_Y_OFFSET)))
+
+    for draw_object in pause_drawable:
+        draw_object.pauseDraw(screen)
 
     display_all_items.draw(screen)
 
@@ -139,6 +153,9 @@ def main():
     all_pickup = pygame.sprite.Group()
     explode_radius = pygame.sprite.Group()
     all_pathing_missle = pygame.sprite.Group()
+    pause_drawable = pygame.sprite.Group()
+    pause_updateable = pygame.sprite.Group()
+    pause_item = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers = (updatable, drawable, playerDependentDraw)
@@ -148,16 +165,20 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     Particle.containers = (updatable, drawable)
     ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
-    ItemObject.containers = (updatable, drawable, all_pickup) #add 'allexp'
+    ItemObject.containers = (updatable, drawable, all_pickup, pause_item) #add 'allexp'
     TextObject.containers = (updatable, drawable)
     Explode.containers = (drawable, explode_radius, updatable)
     PlayerDeathDraw.containers = (drawable, updatable)
     Missle.containers = (drawable, shots, all_pathing_missle)
     Chest.containers = (drawable, updatable, all_pickup)
+    Mouse.containers = (updatable, pause_updateable)
+    ItemTextBox.containers = (pause_drawable, pause_updateable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
     my_particle_manager = ParticleManager()
+    my_mouse = Mouse()
+    my_item_text_box = ItemTextBox()
     is_game_state_paused = False
     pauce_timer = PAUSE_TIME_LIMIT
     display_all_items = None
@@ -185,8 +206,8 @@ def main():
 
 
         if is_game_state_paused:
-            pause_update(delta_time)
-            pause_draw(screen, og_screen, display_all_items)
+            pause_update(delta_time, my_mouse, my_item_text_box, pause_updateable, pause_item)
+            pause_draw(screen, og_screen, display_all_items, pause_drawable)
         else:
             update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
 
