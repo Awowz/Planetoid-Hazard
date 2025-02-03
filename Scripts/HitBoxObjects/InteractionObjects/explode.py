@@ -1,6 +1,6 @@
 import pygame
-from shot import Shot
-from particleManager import ParticleManager
+from Scripts.HitBoxObjects.InteractionObjects.shot import Shot
+from Scripts.ManagerScripts.particleManager import ParticleManager
 
 class Explode(Shot):
     def __init__(self, position, radius, dmg, spawned_on_enemy=None):

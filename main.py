@@ -1,24 +1,24 @@
 import sys
 import pygame
 import math
-from constants import *
-from player import Player
-from baseEnemy import BaseEnemy
-from gameDirector import GameDirector
-from shot import Shot
-from particle import Particle
-from weaponType import WeaponType
-from particleManager import ParticleManager
-from expOrb import ExpOrb
-from itemObject import ItemObject
-from temporaryTextObject import TextObject
-from explode import Explode
-from itemsList import ItemList
-from playerDeathDraw import PlayerDeathDraw
-from missleObject import Missle
-from chestObject import Chest
-from screenShakeManager import ScreenShakeManager
-from displayItems import DisplayItems
+from ConstantVariables.constants import *
+from Scripts.HitBoxObjects.player import Player
+from Scripts.HitBoxObjects.EnemyObjects.baseEnemy import BaseEnemy
+from Scripts.ManagerScripts.gameDirector import GameDirector
+from Scripts.HitBoxObjects.InteractionObjects.shot import Shot
+from Scripts.HitBoxObjects.InteractionObjects.particle import Particle
+from Scripts.ManagerScripts.weaponType import WeaponType
+from Scripts.ManagerScripts.particleManager import ParticleManager
+from Scripts.HitBoxObjects.InteractionObjects.expOrb import ExpOrb
+from Scripts.HitBoxObjects.InteractionObjects.itemObject import ItemObject
+from Scripts.HitBoxObjects.temporaryTextObject import TextObject
+from Scripts.HitBoxObjects.InteractionObjects.explode import Explode
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.ManagerScripts.playerDeathDraw import PlayerDeathDraw
+from Scripts.HitBoxObjects.InteractionObjects.missleObject import Missle
+from Scripts.HitBoxObjects.InteractionObjects.chestObject import Chest
+from Scripts.ManagerScripts.screenShakeManager import ScreenShakeManager
+from Scripts.ManagerScripts.displayItems import DisplayItems
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()

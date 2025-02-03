@@ -1,9 +1,9 @@
 import pygame
 import random
-from baseEnemy import BaseEnemy
-from particleManager import ParticleManager
-from constants import *
-from audioManager import AudioManager
+from Scripts.HitBoxObjects.EnemyObjects.baseEnemy import BaseEnemy
+from Scripts.ManagerScripts.particleManager import ParticleManager
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.audioManager import AudioManager
 
 class AsteroidEnemy(BaseEnemy):
     def __init__(self, x, y, radius, velocity, speed, color=ASTEROID_COLOR, add_health=0, add_exp_drop=0):

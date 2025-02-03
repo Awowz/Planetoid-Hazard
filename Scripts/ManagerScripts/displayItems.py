@@ -1,8 +1,8 @@
 import pygame
-from itemsList import ItemList
-from itemObject import ItemObject
-from itemConstants import *
-from constants import *
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.HitBoxObjects.InteractionObjects.itemObject import ItemObject
+from ConstantVariables.itemConstants import *
+from ConstantVariables.constants import *
 
 
 class DisplayItems():

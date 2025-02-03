@@ -1,6 +1,6 @@
-from circleshape import CircleShape
-from constants import *
-from itemsList import ItemList
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.itemsList import ItemList
 import pygame
 
 class Shot(CircleShape):

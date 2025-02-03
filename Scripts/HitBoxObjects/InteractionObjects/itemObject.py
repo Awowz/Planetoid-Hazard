@@ -1,13 +1,13 @@
 from __future__ import annotations
-import itemsList
+import Scripts.ManagerScripts.itemsList as itemsList
 import pygame
 import os
 import math
-from circleshape import CircleShape
-from temporaryTextObject import TextObject
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from Scripts.HitBoxObjects.temporaryTextObject import TextObject
 
-from itemConstants import *
-from constants import *
+from ConstantVariables.itemConstants import *
+from ConstantVariables.constants import *
 
 class ItemObject(CircleShape):
     def __init__(self, x, y, radius, item_str, item_desct):

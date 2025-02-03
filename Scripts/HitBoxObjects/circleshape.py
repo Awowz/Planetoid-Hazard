@@ -1,5 +1,5 @@
 import pygame
-from constants import *
+from ConstantVariables.constants import *
 
 class CircleShape(pygame.sprite.Sprite):
     def __init__(self, x,y, radius):

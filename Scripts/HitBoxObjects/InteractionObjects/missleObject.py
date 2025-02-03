@@ -1,8 +1,8 @@
 import pygame
 import math
-from shot import Shot
-from constants import *
-from particleManager import ParticleManager
+from Scripts.HitBoxObjects.InteractionObjects.shot import Shot
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.particleManager import ParticleManager
 
 class Missle(Shot):
     def __init__(self, position, dmg):

@@ -1,11 +1,11 @@
 import pygame
 import random
-from constants import *
+from ConstantVariables.constants import *
 #from asteroid import Asteroid
-from asteroidEnemy import AsteroidEnemy
-from meleeEnemy import MeleeEnemy
-from itemsList import ItemList
-from chestObject import Chest
+from Scripts.HitBoxObjects.EnemyObjects.asteroidEnemy import AsteroidEnemy
+from Scripts.HitBoxObjects.EnemyObjects.meleeEnemy import MeleeEnemy
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.HitBoxObjects.InteractionObjects.chestObject import Chest
 enemy_types = ["asteroid", "melee"]
 
 class GameDirector(pygame.sprite.Sprite):

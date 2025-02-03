@@ -1,6 +1,6 @@
 import pygame
-from circleshape import CircleShape
-from constants import *
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from ConstantVariables.constants import *
 
 class ExpOrb(CircleShape):
     def __init__(self, position, exp_amount):

@@ -1,12 +1,12 @@
 import pygame
-from circleshape import CircleShape
-from expOrb import ExpOrb
-from particleManager import ParticleManager
-from constants import *
-from audioManager import AudioManager
-from itemsList import ItemList
-from explode import Explode
-from screenShakeManager import ScreenShakeManager
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from Scripts.HitBoxObjects.InteractionObjects.expOrb import ExpOrb
+from Scripts.ManagerScripts.particleManager import ParticleManager
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.audioManager import AudioManager
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.HitBoxObjects.InteractionObjects.explode import Explode
+from Scripts.ManagerScripts.screenShakeManager import ScreenShakeManager
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):

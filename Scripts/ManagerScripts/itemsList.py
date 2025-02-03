@@ -1,9 +1,9 @@
 import pygame
 import random
 import math
-from constants import *
-from itemConstants import *
-from itemObject import ItemObject
+from ConstantVariables.constants import *
+from ConstantVariables.itemConstants import *
+from Scripts.HitBoxObjects.InteractionObjects.itemObject import ItemObject
 
 class ItemList():
     _instance = None

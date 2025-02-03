@@ -1,7 +1,7 @@
 import pygame
 import math
-from baseEnemy import BaseEnemy
-from constants import *
+from Scripts.HitBoxObjects.EnemyObjects.baseEnemy import BaseEnemy
+from ConstantVariables.constants import *
 
 class MeleeEnemy(BaseEnemy):
     def __init__(self, x, y, radius, velocity, speed, color, add_health, add_exp_drop):

@@ -1,5 +1,5 @@
 import pygame
-from constants import *
+from ConstantVariables.constants import *
 
 class AudioManager():
     _instance = None

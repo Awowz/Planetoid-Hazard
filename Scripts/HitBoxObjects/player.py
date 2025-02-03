@@ -1,10 +1,10 @@
 import pygame
 import pygame.tests
-from circleshape import CircleShape
-from constants import *
-from particleManager import ParticleManager
-from weaponType import WeaponType
-from itemsList import ItemList
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.particleManager import ParticleManager
+from Scripts.ManagerScripts.weaponType import WeaponType
+from Scripts.ManagerScripts.itemsList import ItemList
 
 class Player(CircleShape):
     def __init__(self, x, y):

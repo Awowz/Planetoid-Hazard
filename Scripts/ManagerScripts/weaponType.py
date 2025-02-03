@@ -1,12 +1,12 @@
 import pygame
 import random
-from constants import *
-from shot import Shot
-from particleManager import ParticleManager
-from itemsList import ItemList
-from temporaryTextObject import TextObject
-from audioManager import AudioManager
-from itemsList import ItemList
+from ConstantVariables.constants import *
+from Scripts.HitBoxObjects.InteractionObjects.shot import Shot
+from Scripts.ManagerScripts.particleManager import ParticleManager
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.HitBoxObjects.temporaryTextObject import TextObject
+from Scripts.ManagerScripts.audioManager import AudioManager
+from Scripts.ManagerScripts.itemsList import ItemList
 
 avaliable_weapons = [
     {"gun type": "pistol", "fire rate": PISTOL_FIRE_RATE, "damage": PISTOL_DAMAGE, "bullet speed": PISTOL_SHOOT_SPEED, "radius": PISTOL_SHOT_RADIUS, "accuracy": PISTOL_ACCURACY, "bullet count": PISTOL_PELLETS, "ammo capacity": PISTOL_AMMO_CAPACITY, "reload time" : PISTOL_RELOAD},

@@ -1,7 +1,7 @@
 import pygame
 import random
-from particle import Particle
-from constants import * 
+from Scripts.HitBoxObjects.InteractionObjects.particle import Particle
+from ConstantVariables.constants import * 
 
 class ParticleManager():
     def __init__(self):

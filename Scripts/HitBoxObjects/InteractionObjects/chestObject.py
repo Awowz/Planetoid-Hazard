@@ -1,8 +1,8 @@
 import pygame
-from circleshape import CircleShape
-from constants import *
-from itemsList import ItemList
-from itemObject import ItemObject
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.HitBoxObjects.InteractionObjects.itemObject import ItemObject
 
 class Chest(CircleShape):
     def __init__(self, position, radius=CHEST_RADIUS):

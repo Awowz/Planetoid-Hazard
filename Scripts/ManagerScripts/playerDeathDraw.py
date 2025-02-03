@@ -1,9 +1,9 @@
 import pygame
 import sys
 import random
-from circleshape import CircleShape
-from constants import *
-from particleManager import ParticleManager
+from Scripts.HitBoxObjects.circleshape import CircleShape
+from ConstantVariables.constants import *
+from Scripts.ManagerScripts.particleManager import ParticleManager
 
 class PlayerDeathDraw(CircleShape):
     def __init__(self, position):

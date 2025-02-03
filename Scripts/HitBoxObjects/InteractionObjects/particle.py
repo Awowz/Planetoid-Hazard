@@ -1,5 +1,5 @@
 import pygame
-from circleshape import CircleShape
+from Scripts.HitBoxObjects.circleshape import CircleShape
 
 class Particle(CircleShape):
     def __init__(self, x, y, radius, fade_time, thickness=2, color=(0,0,255)):
