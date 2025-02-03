@@ -18,6 +18,7 @@ from playerDeathDraw import PlayerDeathDraw
 from missleObject import Missle
 from chestObject import Chest
 from screenShakeManager import ScreenShakeManager
+from displayItems import DisplayItems
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
@@ -33,7 +34,7 @@ def color_transition(my_player):
 
     normalize_distance = max(normalize_x, normalize_y)
 
-    center_RGB = (35,43,43)
+    center_RGB = BACKGROUND_COLOR_DEFAULT
     outer_edges_RGB = (0,0,0)
 
     r = int(center_RGB[0] + (-center_RGB[0] * normalize_distance))
@@ -107,10 +108,14 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 def pause_update(delta_time):
     pass
 
-def pause_draw(screen, og_screen):
-    #screen.fill(pygame.color.Color(35,35,35, 0))
-    text = pygame.font.Font(None, PLAYER_DEATH_UI_FONT).render("GAME PAUSED", True, UI_FONT_COLOR)
-    screen.blit(text, pygame.Vector2((SCREEN_WIDTH / PAUSE_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_TEXT_Y_OFFSET)))
+def pause_draw(screen, og_screen, display_all_items):
+    screen.fill(pygame.color.Color(BACKGROUND_COLOR_DEFAULT))
+    pause_text = pygame.font.Font(None, PLAYER_DEATH_UI_FONT).render("GAME PAUSED", True, UI_FONT_COLOR)
+    esc_text = pygame.font.Font(None, UI_FONT_SIZE).render("ESC to resume", True, UI_FONT_COLOR)
+    screen.blit(pause_text, pygame.Vector2((SCREEN_WIDTH / PAUSE_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_TEXT_Y_OFFSET)))
+    screen.blit(esc_text, pygame.Vector2((SCREEN_WIDTH / PAUSE_ESC_TEXT_X_OFFSET), (SCREEN_HEIGHT / PAUSE_ESC_TEXT_Y_OFFSET)))
+
+    display_all_items.draw(screen)
 
     og_screen.blit(screen, (0,0))
     pygame.display.flip()
@@ -155,6 +160,7 @@ def main():
     my_particle_manager = ParticleManager()
     is_game_state_paused = False
     pauce_timer = PAUSE_TIME_LIMIT
+    display_all_items = None
     
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT \nHOLD LSHIFT TO SLOW AIM")
@@ -164,15 +170,23 @@ def main():
             if event.type == pygame.QUIT:
                 return
             
+
         keys = pygame.key.get_pressed()
         pauce_timer -= delta_time
         if keys[pygame.K_ESCAPE] and pauce_timer <= 0:
             is_game_state_paused = not is_game_state_paused
             pauce_timer = PAUSE_TIME_LIMIT
+            if is_game_state_paused:
+                display_all_items = DisplayItems()
+            else:
+                display_all_items.kill()
+                del display_all_items
+
+
 
         if is_game_state_paused:
             pause_update(delta_time)
-            pause_draw(screen, og_screen)
+            pause_draw(screen, og_screen, display_all_items)
         else:
             update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
 

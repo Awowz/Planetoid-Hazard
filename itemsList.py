@@ -50,6 +50,8 @@ class ItemList():
             
             
         }
+        self.obtained_itmes = set()
+
     def __rarity_pick(self) -> str:
         odds = random.uniform(0, 100)
         if odds >= GREEN_ODDS:
@@ -71,6 +73,7 @@ class ItemList():
 
     def increase_count_of_item(self, str):
         self.all_items[str][COUNT] += 1
+        self.obtained_itmes.add(str)
 
     def spawn_item(self, position):
         list_of_items_to_pick = self.__get_rarity_list(self.__rarity_pick())
