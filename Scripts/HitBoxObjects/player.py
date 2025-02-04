@@ -23,6 +23,8 @@ class Player(CircleShape):
         self.is_shield_active = False
         self.remaining_shield_time = 0
 
+        self.avaliable_rewards = 0
+
     def getRequiredExp(self):
         return (self.current_lvl / PLAYER_EXP_MULTIPLIER_BASE) ** PLAYER_EXP_MULTIPLIER_EXPO
 
@@ -32,10 +34,17 @@ class Player(CircleShape):
             self.current_exp = self.current_exp - self.getRequiredExp()
             self.current_lvl += 1
             self.particleManager.confetti(self.position)
-            self.our_items_list.spawn_item(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + (CHEST_TEXT_Y_OFFSET * 2)))
+            self.avaliable_rewards += 1
 
     def getPlayerExpRadius(self):
         return self.exp_radius_magnet + self.our_items_list.getMagnetRadius()
+    
+    def areRewardsAvaliable(self) ->bool:
+        if self.avaliable_rewards > 0: return True
+        return False
+    
+    def consumeReward(self):
+        self.avaliable_rewards -= 1
 
     def triangle(self):
         forward = pygame.Vector2(0,1).rotate(self.rotation)

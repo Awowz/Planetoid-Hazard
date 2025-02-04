@@ -135,6 +135,29 @@ def pause_draw(screen, og_screen, display_all_items, pause_drawable):
     og_screen.blit(screen, (0,0))
     pygame.display.flip()
 
+def reward_draw(screen, og_screen, reward_drawable):
+    for draw_object in reward_drawable:
+        draw_object.draw(screen) 
+        og_screen.blit(screen, (0,0))
+        pygame.display.flip()
+
+def reward_update(delta_time, my_mouse, my_item_text_box, reward_updateable, reward_item, reward_chest):
+    for update_object in reward_updateable:
+        update_object.update(delta_time)
+
+    is_item_being_highlighted = False
+    for single_pickup in reward_item:
+        if my_mouse.checkCollision(single_pickup):
+            is_item_being_highlighted = True
+            my_item_text_box.setIsVisable(single_pickup.my_item_str, single_pickup.item_desct)
+            if pygame.mouse.get_pressed(3)[0]:
+                single_pickup.givePlayerItem()
+                for chest in reward_chest:
+                    chest.kill()
+                global current_game_state
+                current_game_state = GAME_STATE
+        elif not is_item_being_highlighted:
+            my_item_text_box.setNotVisable()
 
 def main():
     pygame.init()
@@ -157,30 +180,33 @@ def main():
     pause_drawable = pygame.sprite.Group()
     pause_updateable = pygame.sprite.Group()
     pause_item = pygame.sprite.Group()
+    reward_updateable = pygame.sprite.Group()
+    reward_drawable = pygame.sprite.Group()
+    reward_item = pygame.sprite.Group()
+    reward_chest = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
-    WeaponType.containers = (updatable, drawable, playerDependentDraw)
-    Player.containers = (updatable, drawable)
-    BaseEnemy.containers = (all_enemies, updatable, drawable, pathing)
-    GameDirector.containers = (checkProgress, drawable)
-    Shot.containers = (shots, updatable, drawable)
-    Particle.containers = (updatable, drawable)
-    ExpOrb.containers = (updatable, drawable, all_exp, all_pickup)
-    ItemObject.containers = (updatable, drawable, all_pickup, pause_item) #add 'allexp'
-    TextObject.containers = (updatable, drawable)
-    Explode.containers = (drawable, explode_radius, updatable)
-    PlayerDeathDraw.containers = (drawable, updatable)
-    Missle.containers = (drawable, shots, all_pathing_missle)
-    Chest.containers = (drawable, updatable, all_pickup)
-    Mouse.containers = (updatable, pause_updateable)
-    ItemTextBox.containers = (pause_drawable, pause_updateable)
+    WeaponType.containers =     (updatable, drawable, playerDependentDraw)
+    Player.containers =         (updatable, drawable)
+    BaseEnemy.containers =      (updatable, all_enemies, drawable, pathing)
+    GameDirector.containers =   (checkProgress, drawable)
+    Shot.containers =           (updatable, shots, drawable)
+    Particle.containers =       (updatable, drawable)
+    ExpOrb.containers =         (updatable, drawable, all_exp, all_pickup)
+    ItemObject.containers =     (updatable, drawable, all_pickup, pause_item, reward_drawable, reward_updateable, reward_item) #add 'allexp'
+    TextObject.containers =     (updatable, drawable)
+    Explode.containers =        (updatable, drawable, explode_radius)
+    PlayerDeathDraw.containers = (updatable, drawable)
+    Missle.containers =         (drawable, shots, all_pathing_missle)
+    Chest.containers =          (reward_drawable, reward_updateable, all_pickup, reward_chest)
+    Mouse.containers =          (pause_updateable, reward_updateable)
+    ItemTextBox.containers =    (pause_drawable, pause_updateable, reward_drawable, reward_updateable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
     my_particle_manager = ParticleManager()
     my_mouse = Mouse()
     my_item_text_box = ItemTextBox()
-    is_game_state_paused = False
     action_limitor = ACTION_TIME_LIMIT
     display_all_items = None
     global current_game_state
@@ -205,6 +231,12 @@ def main():
                 display_all_items.kill()
                 del display_all_items
                 current_game_state = GAME_STATE
+        elif keys[pygame.K_TAB] and action_limitor <= 0 and my_player.areRewardsAvaliable() and current_game_state == GAME_STATE:
+            action_limitor = ACTION_TIME_LIMIT
+            current_game_state = REWARD_STATE
+            my_player.consumeReward()
+            Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+        
 
 
 
@@ -213,13 +245,15 @@ def main():
             pause_draw(screen, og_screen, display_all_items, pause_drawable)
         elif current_game_state == GAME_STATE:
             update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
-
             render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
+        elif current_game_state == REWARD_STATE:
+            reward_update(delta_time, my_mouse,my_item_text_box, reward_updateable,reward_item, reward_chest)
+            reward_draw(screen, og_screen, reward_drawable)
         
 
         ##after the main gameloop has run run tick
         delta_time = clock_object.tick(60) / 1000 
-        
+
 
 
 

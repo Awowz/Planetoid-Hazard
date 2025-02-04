@@ -98,7 +98,8 @@ class GameDirector(pygame.sprite.Sprite):
         return self.current_dificulty * (base / 2)
 
     def spawnReward(self):
-        Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+        pass
+        #Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)) #TODO allow for alternative reward
 
 
 

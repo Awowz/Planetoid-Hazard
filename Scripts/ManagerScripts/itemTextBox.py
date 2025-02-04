@@ -26,8 +26,7 @@ class ItemTextBox(pygame.sprite.Sprite):
         top_left_pos = self.position + pygame.Vector2(-ITEM_TEXT_BOX_WIDTH, -ITEM_TEXT_BOX_HEIGHT)
         pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [top_left_pos.x, top_left_pos.y, ITEM_TEXT_BOX_WIDTH * 2, ITEM_TEXT_BOX_HEIGHT * 2], 0)
         
-
-    def pauseDraw(self, screen):
+    def draw(self, screen):
         if not self.is_visable: return
         self.__drawBlankBox(screen)
 
@@ -37,6 +36,9 @@ class ItemTextBox(pygame.sprite.Sprite):
         item_desc_rect = item_desc.get_rect(center=(self.position.x, self.position.y + ITEM_TEXT_Y_OFFSET))
         screen.blit(item_name, item_name_rect)
         screen.blit(item_desc, item_desc_rect)
+
+    def pauseDraw(self, screen):
+        self.draw(screen)
 
     def pauseUpdate(self, delta_time):
         pass
