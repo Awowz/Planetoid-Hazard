@@ -24,6 +24,7 @@ from Scripts.ManagerScripts.itemTextBox import ItemTextBox
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
+current_game_state = GAME_STATE
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -180,8 +181,9 @@ def main():
     my_mouse = Mouse()
     my_item_text_box = ItemTextBox()
     is_game_state_paused = False
-    pauce_timer = PAUSE_TIME_LIMIT
+    action_limitor = ACTION_TIME_LIMIT
     display_all_items = None
+    global current_game_state
     
 
     print("\n\nKEYBINDS:\nW - UP\nA\\D - LEFT AND RIGHT\nS - REVERSE\nE - SWAP WEAPON\nSPACE - SHOOT \nHOLD LSHIFT TO SLOW AIM")
@@ -193,22 +195,23 @@ def main():
             
 
         keys = pygame.key.get_pressed()
-        pauce_timer -= delta_time
-        if keys[pygame.K_ESCAPE] and pauce_timer <= 0:
-            is_game_state_paused = not is_game_state_paused
-            pauce_timer = PAUSE_TIME_LIMIT
-            if is_game_state_paused:
+        action_limitor -= delta_time
+        if keys[pygame.K_ESCAPE] and action_limitor <= 0:
+            action_limitor = ACTION_TIME_LIMIT
+            if current_game_state == GAME_STATE:
+                current_game_state = PAUSE_STATE
                 display_all_items = DisplayItems()
             else:
                 display_all_items.kill()
                 del display_all_items
+                current_game_state = GAME_STATE
 
 
 
-        if is_game_state_paused:
+        if current_game_state == PAUSE_STATE:
             pause_update(delta_time, my_mouse, my_item_text_box, pause_updateable, pause_item)
             pause_draw(screen, og_screen, display_all_items, pause_drawable)
-        else:
+        elif current_game_state == GAME_STATE:
             update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
 
             render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
