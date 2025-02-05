@@ -235,7 +235,7 @@ def main():
             action_limitor = ACTION_TIME_LIMIT
             current_game_state = REWARD_STATE
             my_player.consumeReward()
-            Chest(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+            Chest(pygame.Vector2(CHEST_X_POS, CHEST_Y_POS))
         
 
 

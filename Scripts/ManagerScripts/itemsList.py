@@ -80,7 +80,7 @@ class ItemList():
 
         item_to_spawn = self.__get_pick_item(list_of_items_to_pick)
 
-        return ItemObject(position.x, position.y, 20, item_to_spawn, self.all_items[item_to_spawn][DESCRIPTION])
+        return ItemObject(position.x, position.y, 20, item_to_spawn, self.all_items[item_to_spawn][DESCRIPTION], self.all_items[item_to_spawn][RARITY])
 
     def getAccuracy(self) ->float:
         return self.all_items[THREADED_BARREL_NAME][COUNT] * THREADED_BARREL_VALUE
