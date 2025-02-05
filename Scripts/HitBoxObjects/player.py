@@ -18,6 +18,7 @@ class Player(CircleShape):
         self.our_items_list = ItemList()
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
         self.player_turn_speed = PLAYER_TURN_SPEED
+        self.press_tab_text = self.font.render("TAB", True, UI_FONT_COLOR)
 
         self.is_player_dead = False
         self.is_shield_active = False
@@ -76,13 +77,24 @@ class Player(CircleShape):
         new_top_left = self.position + (forward * self.radius + right) * normalize
         pygame.draw.polygon(screen, SHIELD_COLOR, [new_bottom_right, new_bottom_left,new_top_left, new_top_right], 1)
         
+    
+    def __drawTabPromt(self,screen):
+        if self.avaliable_rewards <= 0: return
+        pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [TAB_BOX_CENTER_X - (TAB_BOX_WIDTH / 2), TAB_BOX_CENTER_Y - (TAB_BOX_HEIGHT / 2), TAB_BOX_WIDTH, TAB_BOX_HEIGHT], 0)
+        pygame.draw.rect(screen, EXP_COLOR, [TAB_BOX_CENTER_X - (TAB_BOX_WIDTH / 2), TAB_BOX_CENTER_Y - (TAB_BOX_HEIGHT / 2), TAB_BOX_WIDTH, TAB_BOX_HEIGHT], 3)
+        tab_text_rect = self.press_tab_text.get_rect(center=(TAB_BOX_CENTER_X, TAB_BOX_CENTER_Y))
+        screen.blit(self.press_tab_text, tab_text_rect)
+
+        
 
     def draw(self, screen):
         if self.is_player_dead: return
 
-        pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
+        self.__drawTabPromt(screen)
         self.__drawXpBar(screen)
         self.__drawPlayerLvl(screen)
+        pygame.draw.polygon(screen, "yellow", self.triangle(), 0)
+        
         self.__drawShield(screen)
         
 
