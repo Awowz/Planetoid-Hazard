@@ -12,6 +12,7 @@ class PlayerDeathDraw(CircleShape):
 
         self.time_passed = 0
         self.text = pygame.font.Font(None, PLAYER_DEATH_UI_FONT).render("GAME OVER", True, UI_FONT_COLOR)
+        self.is_finished = False
     
         temp = self.position
         self.position = [temp - pygame.Vector2(4,0),temp + pygame.Vector2(4,0),temp - pygame.Vector2(0,3)]
@@ -42,4 +43,5 @@ class PlayerDeathDraw(CircleShape):
             self.rotation[x] += self.rotation_speed[x] * delta_time
             self.position[x] += self.velocity[x] * self.speed[x] * delta_time
         if self.time_passed >= PLAYER_DEATH_TIMER:
-            sys.exit()
+            #sys.exit()
+            self.is_finished = True

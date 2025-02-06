@@ -176,3 +176,9 @@ class ItemList():
     def list_all(self):
         for x in self.all_items:
             print(f"count: {self.all_items[x][COUNT]}    description: {self.all_items[x][DESCRIPTION]}")
+
+    def hard_rest(self):
+        for x in self.all_items:
+            self.all_items[x][COUNT] = 0
+
+        self.obtained_itmes = set()

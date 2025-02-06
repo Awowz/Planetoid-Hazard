@@ -1,6 +1,7 @@
 import sys
 import pygame
 import math
+import gc
 from ConstantVariables.constants import *
 from Scripts.HitBoxObjects.player import Player
 from Scripts.HitBoxObjects.EnemyObjects.baseEnemy import BaseEnemy
@@ -21,6 +22,7 @@ from Scripts.ManagerScripts.screenShakeManager import ScreenShakeManager
 from Scripts.ManagerScripts.displayItems import DisplayItems
 from Scripts.HitBoxObjects.mouse import Mouse
 from Scripts.ManagerScripts.itemTextBox import ItemTextBox
+from Scripts.HitBoxObjects.button import Button
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
@@ -61,7 +63,7 @@ def render_game_objects(screen, drawable, my_player, playerDependentDraw, og_scr
     pygame.display.flip()
 
 
-def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle):
+def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle, death_object):
     for check_progress in checkProgress:
         check_progress.checkProgress(delta_time)
 
@@ -104,6 +106,11 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
     for singe_missle in all_pathing_missle:
         if len(all_enemies) != 0:
             singe_missle.pathing(all_enemies.sprites()[0].position,delta_time)
+
+    for x in death_object:
+        if x.is_finished:
+            global current_game_state
+            current_game_state = EXIT_STATE
 
 
     our_shake.update(delta_time)
@@ -159,11 +166,74 @@ def reward_update(delta_time, my_mouse, my_item_text_box, reward_updateable, rew
         elif not is_item_being_highlighted:
             my_item_text_box.setNotVisable()
 
-def main():
+def mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, screen):
+    for single_object in main_menu_update:
+        single_object.update(delta_time)
+    for single_button in button_collision:
+        if my_mouse.checkCollision(single_button):
+            single_button.setVisable()
+            if pygame.mouse.get_pressed(3)[0]:
+                global current_game_state, our_list
+                our_list.hard_rest()
+                current_game_state = GAME_STATE
+                single_button.callFunction(screen)
+                gc.collect()
+        else:
+            single_button.setNotVisable()
+                
+
+def mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw):
+    screen.fill((0,0,0))
+    screen.blit(main_text, main_text_rect)
+
+    for single in main_menu_draw:
+        single.draw(screen)
+
+    pygame.display.flip()
+
+def tutorial(screen):
+    print("TODO!!")
+
+def mainMenu():
     pygame.init()
     clock_object = pygame.time.Clock()
     delta_time = 0 ## amount of time passed since last frame was drawn
-    og_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+    main_menu_update = pygame.sprite.Group()
+    main_menu_draw = pygame.sprite.Group()
+    button_collision = pygame.sprite.Group()
+
+    Mouse.containers = (main_menu_update)
+    Button.containers = (main_menu_update, main_menu_draw, button_collision)
+
+    main_text = pygame.font.Font(None, MAIN_MENU_FONT).render("Planetoid-Hazard", True, UI_FONT_COLOR)
+    main_text_rect = main_text.get_rect(center=(SCREEN_WIDTH / 2, MAIN_MENU_FRONT_TEXT_Y_OFFSET))
+    my_mouse = Mouse()
+    
+    button1 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Play",mainGameLoop)
+    button2 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.4), "Tutorial",tutorial)
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+
+        mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, screen)
+        
+        mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw)
+        
+        delta_time = clock_object.tick(60) / 1000 
+
+        
+
+        
+
+def mainGameLoop(og_screen):
+    pygame.init()
+    clock_object = pygame.time.Clock()
+    delta_time = 0 ## amount of time passed since last frame was drawn
+    #og_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     screen = og_screen.copy()
   
     updatable = pygame.sprite.Group()
@@ -184,6 +254,7 @@ def main():
     reward_drawable = pygame.sprite.Group()
     reward_item = pygame.sprite.Group()
     reward_chest = pygame.sprite.Group()
+    death_object = pygame.sprite.Group()
 
     # note: must be created after asigning static field, otherwise existing object wont take effect
     WeaponType.containers =     (updatable, drawable, playerDependentDraw)
@@ -196,7 +267,7 @@ def main():
     ItemObject.containers =     (updatable, drawable, all_pickup, pause_item, reward_drawable, reward_updateable, reward_item) #add 'allexp'
     TextObject.containers =     (updatable, drawable)
     Explode.containers =        (updatable, drawable, explode_radius)
-    PlayerDeathDraw.containers = (updatable, drawable)
+    PlayerDeathDraw.containers = (updatable, drawable, death_object)
     Missle.containers =         (drawable, shots, all_pathing_missle)
     Chest.containers =          (reward_drawable, reward_updateable, all_pickup, reward_chest)
     Mouse.containers =          (pause_updateable, reward_updateable)
@@ -244,11 +315,13 @@ def main():
             pause_update(delta_time, my_mouse, my_item_text_box, pause_updateable, pause_item)
             pause_draw(screen, og_screen, display_all_items, pause_drawable)
         elif current_game_state == GAME_STATE:
-            update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle)
+            update_game_logic(delta_time, my_player, updatable, all_enemies, shots, checkProgress, my_particle_manager, all_exp, all_pickup, explode_radius, all_pathing_missle, death_object)
             render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen)
         elif current_game_state == REWARD_STATE:
             reward_update(delta_time, my_mouse,my_item_text_box, reward_updateable,reward_item, reward_chest)
             reward_draw(screen, og_screen, reward_drawable)
+        elif current_game_state == EXIT_STATE:
+            return
         
 
         ##after the main gameloop has run run tick
@@ -258,4 +331,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    mainMenu()
