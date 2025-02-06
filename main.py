@@ -227,7 +227,7 @@ def main():
             if current_game_state == GAME_STATE:
                 current_game_state = PAUSE_STATE
                 display_all_items = DisplayItems()
-            else:
+            elif current_game_state == PAUSE_STATE:
                 display_all_items.kill()
                 del display_all_items
                 current_game_state = GAME_STATE
