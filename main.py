@@ -23,6 +23,7 @@ from Scripts.ManagerScripts.displayItems import DisplayItems
 from Scripts.HitBoxObjects.mouse import Mouse
 from Scripts.ManagerScripts.itemTextBox import ItemTextBox
 from Scripts.HitBoxObjects.button import Button
+from Scripts.ManagerScripts.tutorialDirector import TutorialDirector
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
@@ -272,6 +273,7 @@ def mainGameLoop(og_screen):
     Chest.containers =          (reward_drawable, reward_updateable, all_pickup, reward_chest)
     Mouse.containers =          (pause_updateable, reward_updateable)
     ItemTextBox.containers =    (pause_drawable, pause_updateable, reward_drawable, reward_updateable)
+    TutorialDirector.containers = (checkProgress, drawable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
     my_game_director = GameDirector()
