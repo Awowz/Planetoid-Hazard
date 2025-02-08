@@ -183,8 +183,8 @@ def mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, scr
             single_button.setNotVisable()
                 
 
-def mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw):
-    screen.fill((0,0,0))
+def mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw, background_color):
+    screen.fill(background_color)
     screen.blit(main_text, main_text_rect)
 
     for single in main_menu_draw:
@@ -198,7 +198,8 @@ def tutorial(screen):
 def mainMenu():
     pygame.init()
     clock_object = pygame.time.Clock()
-    delta_time = 0 ## amount of time passed since last frame was drawn
+    delta_time = 0
+    time_passed = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     main_menu_update = pygame.sprite.Group()
@@ -208,8 +209,6 @@ def mainMenu():
     Mouse.containers = (main_menu_update)
     Button.containers = (main_menu_update, main_menu_draw, button_collision)
 
-    main_text = pygame.font.Font(None, MAIN_MENU_FONT).render("Planetoid-Hazard", True, UI_FONT_COLOR)
-    main_text_rect = main_text.get_rect(center=(SCREEN_WIDTH / 2, MAIN_MENU_FRONT_TEXT_Y_OFFSET))
     my_mouse = Mouse()
     
     button1 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Play",mainGameLoop)
@@ -222,9 +221,16 @@ def mainMenu():
 
         mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, screen)
         
-        mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw)
+        size = MAIN_MENU_FONT + math.sin(time_passed * TITLE_PULSE_SPEED) * TITLE_PULSE_SCALE
+        main_text = pygame.font.Font(None, int(size)).render("Planetoid-Hazard", True, UI_FONT_COLOR)
+        main_text_rect = main_text.get_rect(center=(SCREEN_WIDTH / 2, MAIN_MENU_FRONT_TEXT_Y_OFFSET))
+        modify_color = MENU_COLOR_VALUE + math.sin(time_passed * MENU_COLOR_SPEED) * MENU_COLOR_VALUE
+        background_color = pygame.color.Color(MENU_BACKROUND_DEFAULT_COLOR) + pygame.color.Color(int(modify_color), int(modify_color), int(modify_color))
+
+        mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw, background_color)
         
         delta_time = clock_object.tick(60) / 1000 
+        time_passed += delta_time
 
         
 
