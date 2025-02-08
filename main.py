@@ -193,7 +193,7 @@ def mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw):
     pygame.display.flip()
 
 def tutorial(screen):
-    print("TODO!!")
+    mainGameLoop(screen, TutorialDirector)
 
 def mainMenu():
     pygame.init()
@@ -230,7 +230,7 @@ def mainMenu():
 
         
 
-def mainGameLoop(og_screen):
+def mainGameLoop(og_screen, Director=GameDirector):
     pygame.init()
     clock_object = pygame.time.Clock()
     delta_time = 0 ## amount of time passed since last frame was drawn
@@ -276,7 +276,7 @@ def mainGameLoop(og_screen):
     TutorialDirector.containers = (checkProgress, drawable)
 
     my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  
-    my_game_director = GameDirector()
+    my_game_director = Director()
     my_particle_manager = ParticleManager()
     my_mouse = Mouse()
     my_item_text_box = ItemTextBox()
