@@ -6,7 +6,7 @@ class ExpOrb(CircleShape):
     def __init__(self, position, exp_amount):
         super().__init__(position.x, position.y, EXP_HIT_BOX_RADIUS)
         self.exp_amount = exp_amount
-        self.__has_touched_players_magnet = False
+        self.has_touched_players_magnet = False
         self.currect_rotation = 0
     
     def rectangle(self):
@@ -27,13 +27,16 @@ class ExpOrb(CircleShape):
         self.currect_rotation += EXP_ROTATION_SPEED * delta_time
 
     def move_to_player(self, player, delta_time):
-        if self.__has_touched_players_magnet:
+        if self.has_touched_players_magnet:
             if super().checkCollision(player):
                 self.__grantExp(player)
             distance_x = player.position.x - self.position.x
             distance_y = player.position.y - self.position.y
             distance = (distance_x ** 2 + distance_y ** 2) ** 0.5
-            velocity = pygame.Vector2(distance_x / distance, distance_y / distance) * EXP_SPEED
+            try:
+                velocity = pygame.Vector2(distance_x / distance, distance_y / distance) * EXP_SPEED
+            except:
+                velocity = pygame.Vector2(0,0)
             if distance != 0:
                 self.position += velocity * delta_time
             
@@ -44,7 +47,7 @@ class ExpOrb(CircleShape):
         is_collided = distance <= self.radius + target.getPlayerExpRadius()
         
         if is_collided:
-            self.__has_touched_players_magnet = True
+            self.has_touched_players_magnet = True
         return is_collided
     
     def __grantExp(self, player):
