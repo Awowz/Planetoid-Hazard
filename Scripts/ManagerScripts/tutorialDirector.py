@@ -4,6 +4,7 @@ from ConstantVariables.constants import *
 from Scripts.HitBoxObjects.EnemyObjects.asteroidEnemy import AsteroidEnemy
 from Scripts.HitBoxObjects.InteractionObjects.expOrb import ExpOrb
 from Scripts.HitBoxObjects.EnemyObjects.meleeEnemy import MeleeEnemy
+from Scripts.ManagerScripts.itemsList import ItemList
 
 class TutorialDirector(pygame.sprite.Sprite):
     def __init__(self):
@@ -18,6 +19,8 @@ class TutorialDirector(pygame.sprite.Sprite):
         self.display_text_2 = ""
         self.font = pygame.font.Font(None, TUTORIAL_TEXT_SIZE)
         self.time_elicped = TUTORIAL_STEP_DELAY
+
+        self.our_item_list = ItemList()
 
     def __resetForNextStep(self):
         self.dummy_target = None
@@ -58,6 +61,10 @@ class TutorialDirector(pygame.sprite.Sprite):
             if self.is_player_ready():
                 self.__resetForNextStep()
         if self.current_action == 4:
+            if not self.single_spawn:
+                for x in self.our_item_list.all_items:
+                    self.our_item_list.increase_count_of_item(x)
+                self.single_spawn = True
             self.display_text = "Press ESC to see the items you picked it. hovering the item lets you read the items details"
             self.display_text_2 = "Press X to continue"
             if self.is_player_ready():
@@ -77,10 +84,10 @@ class TutorialDirector(pygame.sprite.Sprite):
             self.display_text = "Tutorial completed, good luck!"
             if self.time_elicped <= 0:
                 for x in range(100):
-                    MeleeEnemy(random.randint(0, SCREEN_WIDTH),0, MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 0, 0)
-                    MeleeEnemy(random.randint(0, SCREEN_WIDTH),SCREEN_HEIGHT, MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 0, 0)
-                    MeleeEnemy(0,random.randint(0, SCREEN_HEIGHT), MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 0, 0)
-                    MeleeEnemy(SCREEN_WIDTH,random.randint(0, SCREEN_HEIGHT), MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 0, 0)
+                    MeleeEnemy(random.randint(0, SCREEN_WIDTH),0, MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 200, 0)
+                    MeleeEnemy(random.randint(0, SCREEN_WIDTH),SCREEN_HEIGHT, MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 200, 0)
+                    MeleeEnemy(0,random.randint(0, SCREEN_HEIGHT), MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 200, 0)
+                    MeleeEnemy(SCREEN_WIDTH,random.randint(0, SCREEN_HEIGHT), MELEE_RADIUS, (0,1), MELEE_SPEED, MELEE_COLOR, 200, 0)
                 self.current_action += 1
 
         self.time_elicped -= delta_time
