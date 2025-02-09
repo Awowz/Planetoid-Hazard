@@ -5,6 +5,7 @@ from ConstantVariables.constants import *
 from Scripts.ManagerScripts.particleManager import ParticleManager
 from Scripts.ManagerScripts.weaponType import WeaponType
 from Scripts.ManagerScripts.itemsList import ItemList
+from Scripts.ManagerScripts.scoreManager import ScoreManager
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -16,6 +17,7 @@ class Player(CircleShape):
         self.current_lvl = 1
         self.exp_radius_magnet = PLAYER_EXP_MAGNET
         self.our_items_list = ItemList()
+        self.our_score = ScoreManager()
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
         self.player_turn_speed = PLAYER_TURN_SPEED
         self.press_tab_text = self.font.render("TAB", True, UI_FONT_COLOR)
@@ -31,9 +33,11 @@ class Player(CircleShape):
 
     def gainExp(self, exp_amount):
         self.current_exp += exp_amount
+        self.our_score.incrementExp(exp_amount)
         if self.current_exp >= self.getRequiredExp():
             self.current_exp = self.current_exp - self.getRequiredExp()
             self.current_lvl += 1
+            self.our_score.incrementLvl()
             self.particleManager.confetti(self.position)
             self.avaliable_rewards += 1
 

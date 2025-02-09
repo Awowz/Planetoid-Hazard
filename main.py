@@ -24,10 +24,13 @@ from Scripts.HitBoxObjects.mouse import Mouse
 from Scripts.ManagerScripts.itemTextBox import ItemTextBox
 from Scripts.HitBoxObjects.button import Button
 from Scripts.ManagerScripts.tutorialDirector import TutorialDirector
+from Scripts.ManagerScripts.scoreManager import ScoreManager
 
 our_list = ItemList()
 our_shake = ScreenShakeManager()
+our_score = ScoreManager()
 current_game_state = GAME_STATE
+need_to_check_score = True
 
 def color_transition(my_player):
     center_x = SCREEN_WIDTH / 2
@@ -110,9 +113,11 @@ def update_game_logic(delta_time, my_player, updatable, all_enemies, shots, chec
 
     for x in death_object:
         if x.is_finished:
+            our_score.writeScore()
             global current_game_state
             current_game_state = EXIT_STATE
 
+    our_score.incrementTime(delta_time)
 
     our_shake.update(delta_time)
 
@@ -174,9 +179,10 @@ def mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, scr
         if my_mouse.checkCollision(single_button):
             single_button.setVisable()
             if pygame.mouse.get_pressed(3)[0]:
-                global current_game_state, our_list
+                global current_game_state, our_list, need_to_check_score
                 our_list.hard_rest()
                 current_game_state = GAME_STATE
+                need_to_check_score = True
                 single_button.callFunction(screen)
                 gc.collect()
         else:
@@ -186,6 +192,12 @@ def mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, scr
 def mainMenuDraw(screen, main_text, main_text_rect, main_menu_draw, background_color):
     screen.fill(background_color)
     screen.blit(main_text, main_text_rect)
+    
+    high_score_list = our_score.getHighScoreList()
+    for x in range(len(high_score_list)):
+        score_text = pygame.font.Font(None, UI_FONT_SIZE).render(high_score_list[x], True, UI_FONT_COLOR)
+        score_text_rect = score_text.get_rect(center=(HIGH_SCORE_X_POS, HIGH_SCORE_Y_POS + (HIGH_SCORE_Y_OFFSET * x)))
+        screen.blit(score_text, score_text_rect)
 
     for single in main_menu_draw:
         single.draw(screen)
@@ -214,10 +226,18 @@ def mainMenu():
     button1 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Play",mainGameLoop)
     button2 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.4), "Tutorial",tutorial)
     
+    global need_to_check_score
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            
+        if need_to_check_score:
+            try:
+                our_score.readScore()
+            except Exception as e:
+                print(e)
+            need_to_check_score = False
 
         mainMenuUpdate(delta_time, main_menu_update, my_mouse, button_collision, screen)
         

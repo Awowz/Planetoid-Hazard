@@ -17,6 +17,7 @@ class AsteroidEnemy(BaseEnemy):
         self.speed = self.max_speed * self.our_item_list.getMovmentReductionPercent()
         if self.health <= 0 and not self.is_currently_dying:
             self.is_currently_dying = True
+            self.our_score.incrementKill()
             self.split()
             return True
         return False

@@ -7,6 +7,7 @@ from Scripts.ManagerScripts.audioManager import AudioManager
 from Scripts.ManagerScripts.itemsList import ItemList
 from Scripts.HitBoxObjects.InteractionObjects.explode import Explode
 from Scripts.ManagerScripts.screenShakeManager import ScreenShakeManager
+from Scripts.ManagerScripts.scoreManager import ScoreManager
 
 class BaseEnemy(CircleShape):
     def __init__(self, x, y, radius, velocity, speed, color, health, exp_drop):
@@ -31,6 +32,7 @@ class BaseEnemy(CircleShape):
         self.our_audio_manager = AudioManager()
         self.our_item_list = ItemList()
         self.our_screen_shake = ScreenShakeManager()
+        self.our_score = ScoreManager()
 
     def dropExpOrb(self):
         ExpOrb(self.position, self.exp_drop)
@@ -43,6 +45,7 @@ class BaseEnemy(CircleShape):
         self.stunChance()
         if self.health < 0.001 and not self.is_currently_dying:
             self.is_currently_dying = True
+            self.our_score.incrementKill()
             self.kill()
             return True
         return False
