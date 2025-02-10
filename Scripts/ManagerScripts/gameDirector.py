@@ -42,7 +42,9 @@ class GameDirector(pygame.sprite.Sprite):
         self.current_dificulty = 0
         self.time_passed_till_enemy_spawn = 0
         self.our_item_list = ItemList()
-        self.text = pygame.font.Font(None, UI_FONT_SIZE)
+        self.start_text_color = pygame.color.Color(UI_FONT_COLOR)
+        self.end_text_color = pygame.color.Color(GAME_DIRECTOR_FONT_COLOR_END)
+        self.current_text_color = self.start_text_color
 
     def __getScreenSpawnCap(self):
         return GAME_DIRECTOR_SCREEN_SPAWN_CAP + ((GAME_DIRECTOR_SCREEN_SPAWN_CAP * self.current_dificulty ) // GAME_DIRECTOR_SCREEN_SPAWN_DIVIDING_FACTOR)
@@ -78,13 +80,18 @@ class GameDirector(pygame.sprite.Sprite):
             melee = MeleeEnemy(position.x, position.y, MELEE_RADIUS, pygame.Vector2(0,1), MELEE_SPEED, MELEE_COLOR, self.healthFormula(MELEE_BASE_HEALTH), self.expFormula(MELEE_BASE_EXP_DROP))
 
 
+    def increaseDificulty(self):
+        self.tower_remaining_time = TOWER_TIMER_LENGTH
+        self.current_dificulty += 1
+        self.spawnReward()
+        self.current_text_color = self.start_text_color.lerp(self.end_text_color, min(self.current_dificulty / GAME_DIRECTOR_END_OF_FONT_INTENSITY, 1))
+
+
     def checkProgress(self, delta_time):
         self.__totalingUpTime(delta_time)
         
         if self.tower_remaining_time <= 0:
-            self.tower_remaining_time = TOWER_TIMER_LENGTH
-            self.current_dificulty += 1
-            self.spawnReward()
+            self.increaseDificulty()
             
 
         if self.__getEnemySpawnTime() <= self.time_passed_till_enemy_spawn:
@@ -104,5 +111,6 @@ class GameDirector(pygame.sprite.Sprite):
 
 
     def draw(self, screen):
-        text = pygame.font.Font(None, UI_FONT_SIZE).render("%.3f" % self.tower_remaining_time, True, UI_FONT_COLOR)
-        screen.blit(text, pygame.Vector2(SCREEN_WIDTH / 2 - TOWER_TIMER_X_OFFSET, SCREEN_HEIGHT / 2 - TOWER_TIMER_Y_OFFSET))
+        timer_text = pygame.font.Font(None, UI_FONT_SIZE).render(f"{self.tower_remaining_time:.3f}  Difficulty: {self.current_dificulty}", True, self.current_text_color)
+        timer_text_rect = timer_text.get_rect(center=(SCREEN_WIDTH / 2, TOWER_TIMER_Y_OFFSET))
+        screen.blit(timer_text, timer_text_rect)
