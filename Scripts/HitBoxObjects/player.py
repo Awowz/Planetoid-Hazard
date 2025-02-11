@@ -109,7 +109,9 @@ class Player(CircleShape):
         forward = pygame.Vector2(0,1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * delta_time
         back_triangle_position = self.position - pygame.Vector2(0,1).rotate(self.rotation) * self.radius
-        self.particleManager.create_particle_thrust(back_triangle_position, self.rotation)
+        thruster_rotation = self.rotation
+        if delta_time <= 0: thruster_rotation = thruster_rotation + 180
+        self.particleManager.create_particle_thrust(back_triangle_position, thruster_rotation)
 
     def shoot(self):
         self.current_weapon.shoot(self.position, self.rotation, self.current_lvl)
