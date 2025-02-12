@@ -13,7 +13,8 @@ class TextObject(CircleShape):
         self.text = pygame.font.Font(None, UI_FONT_SIZE).render(text, True, UI_FONT_COLOR)
 
     def draw(self, screen):
-        screen.blit(self.text, self.position)
+        tet_rect = self.text.get_rect(center=(self.position.x, self.position.y))
+        screen.blit(self.text, tet_rect)
 
     def update(self, delta_time):
         if self.timer_death >= self.fade_time:

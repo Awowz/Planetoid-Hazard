@@ -53,7 +53,7 @@ class ItemObject(CircleShape):
 
     def givePlayerItem(self):
         self.our_item_list.increase_count_of_item(self.my_item_str)
-        TextObject(self.position + pygame.Vector2(TEXT_OBJECT_X_OFFSET, TEXT_OBJECT_Y_OFFSET), f"{self.my_item_str}    {self.item_desct}")
+        TextObject(self.position, f"{self.my_item_str}    {self.item_desct}")
         self.kill()
 
     def bounce(self):
