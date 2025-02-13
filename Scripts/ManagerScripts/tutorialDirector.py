@@ -36,8 +36,8 @@ class TutorialDirector(pygame.sprite.Sprite):
         
     def checkProgress(self, delta_time):
         if self.current_action == 0: 
-            self.display_text = "W A S D to move and SPACE to shoot. Kill the target"
-
+            self.display_text = "W A S D to move and SPACE to shoot. Hold Shift to slow turn"
+            self.display_text_2 = "Kill the red target at the bottom right"
             if self.dummy_target == None and not self.single_spawn:
                 self.dummy_target = AsteroidEnemy(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 1.1, 20, pygame.Vector2(0,0), 0, add_health=-25, add_exp_drop=0)
                 self.single_spawn =True
