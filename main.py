@@ -49,8 +49,9 @@ def color_transition(my_player):
     r = int(center_RGB[0] + (-center_RGB[0] * normalize_distance))
     g = int(center_RGB[1] + (-center_RGB[1] * normalize_distance))
     b = int(center_RGB[2] + (-center_RGB[2] * normalize_distance))
+    print(f"{r}  {g}  {b}")
 
-    return (r,g,b)
+    return (max(0,min(255,r)),max(0,min(255,g)),max(0,min(255,b)))
     
 
 def render_game_objects(screen, drawable, my_player, playerDependentDraw, og_screen):
