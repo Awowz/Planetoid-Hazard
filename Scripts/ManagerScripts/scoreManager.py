@@ -33,13 +33,19 @@ class ScoreManager():
         str_array = str.split('\n')
         self.__setHighScore(str_array[0], str_array[1], str_array[2], str_array[3])
         f.close()
+        self.__reset()
     
     def writeScore(self):
-        if self.time_survived >= self.highscore_time and self.targets_slain >= self.highscore_slain and self.xp_collected >= self. highscore_xp and self.highest_lvl >= self.highscore_lvl:
-            f = open(SCORE_FILE, "w")
-            f.write(self.output())
-            f.close()
+        f = open(SCORE_FILE, "w")
+        f.write(self.outputStr(max(self.time_survived, self.highscore_time), max(self.targets_slain, self.highscore_slain), max(self. xp_collected, self.highscore_xp), max(self.highest_lvl, self.highscore_lvl)))
+        f.close()
+        self.__reset()
         
+    def __reset(self):
+        self.time_survived = 0
+        self.targets_slain = 0
+        self.xp_collected = 0
+        self.highest_lvl = 0
 
     def incrementKill(self):
         self.targets_slain += 1
@@ -53,8 +59,8 @@ class ScoreManager():
     def incrementTime(self, delta_time):
         self.time_survived += delta_time
     
-    def output(self):
-        return f"{self.time_survived:.4f}\n{self.targets_slain}\n{self.xp_collected}\n{self.highest_lvl}"
+    def outputStr(self, time_survived, targets_slain, xp_collected, highest_lvl):
+        return f"{time_survived:.4f}\n{targets_slain}\n{xp_collected}\n{highest_lvl}"
 
     def print_all(self):
         print(f"time:{self.time_survived}\ntargets slain:{self.targets_slain}\nxp:{self.xp_collected}\nplayer lvl:{self.highest_lvl}")

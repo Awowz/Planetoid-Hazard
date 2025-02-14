@@ -41,7 +41,7 @@ class ItemList():
             GHOST_LOADING_NAME : {COUNT : 0, DESCRIPTION: f"{GHOST_LOADING_VALUE}% chance to shoot another bullet", RARITY : GREEN},
             #accuracy shots (each shot that lands increases damage of next shot, if bullet hits kill wall. rest)
             ARMOR_CHIPPER_NAME : {COUNT : 0, DESCRIPTION: f"Enemies above {ARMOR_CHIPPER_THRESHOLD}% health take {(ARMOR_CHIPPER_VALUE * 100)}% more damage", RARITY: GREEN},
-            ARMOR_PIERCING_ROUNDS_NAME: {COUNT : 0, DESCRIPTION: f"Bullets will now peice enemies", RARITY : GREEN},
+            ARMOR_PIERCING_ROUNDS_NAME: {COUNT : 0, DESCRIPTION: f"Bullets will now pierce enemies", RARITY : GREEN},
             #spawn landmine every tower cycle
             #spawn turret
             #first bullet in mag does 100% damage
