@@ -4,9 +4,9 @@ DESCRIPTION = "description"
 
 RARITY = "rarity"
 WHITE = "white"
-WHITE_ODDS = 73.99
+WHITE_ODDS = 60.99
 GREEN = "green"
-GREEN_ODDS = 98.89
+GREEN_ODDS = 89.89
 RED = "red"
 
 ITEM_COLOR = {RED : (111,0,0), GREEN : (48,104,68), WHITE : (218,221,219)}
