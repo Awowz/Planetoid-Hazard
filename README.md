@@ -1,6 +1,7 @@
 # Planetoid-Hazard
 
 Planetoid-Hazard is an Asteroids and Risk of Rain inspired game.
+![Gameplay Sample!](/Assets/popup.gif "Gameplay Sample!")
 
 ## Install Instructions
 
@@ -13,6 +14,7 @@ you will need Python3, pip and pygame version 2.6.1 in order to play this game
 4. we now need to actiave our virtual enviorment
 > Linux
 >> source venv/bin/activate
+
 > Windows
 >> source venv/Scripts/activate
 5. lastly we need to install the required version of pygames in our virtual enviorment. Run the following command.
