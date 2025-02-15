@@ -9,8 +9,8 @@ from Scripts.ManagerScripts.audioManager import AudioManager
 from Scripts.ManagerScripts.itemsList import ItemList
 
 avaliable_weapons = [
+    {"gun type": "smg", "fire rate": SMG_FIRE_RATE, "damage": SMG_DAMAGE, "bullet speed": SMG_SHOOT_SPEED, "radius": SMG_SHOT_RADIUS, "accuracy": SMG_ACCURACY, "bullet count": SMG_PELLETS,"ammo capacity": SMG_AMMO_CAPACITY, "reload time" : SMG_RELOAD},    
     {"gun type": "pistol", "fire rate": PISTOL_FIRE_RATE, "damage": PISTOL_DAMAGE, "bullet speed": PISTOL_SHOOT_SPEED, "radius": PISTOL_SHOT_RADIUS, "accuracy": PISTOL_ACCURACY, "bullet count": PISTOL_PELLETS, "ammo capacity": PISTOL_AMMO_CAPACITY, "reload time" : PISTOL_RELOAD},
-    {"gun type": "smg", "fire rate": SMG_FIRE_RATE, "damage": SMG_DAMAGE, "bullet speed": SMG_SHOOT_SPEED, "radius": SMG_SHOT_RADIUS, "accuracy": SMG_ACCURACY, "bullet count": SMG_PELLETS,"ammo capacity": SMG_AMMO_CAPACITY, "reload time" : SMG_RELOAD},
     {"gun type": "shotgun", "fire rate": SHOTGUN_FIRE_RATE, "damage": SHOTGUN_DAMAGE, "bullet speed": SHOTGUN_SHOOT_SPEED, "radius": SHOTGUN_SHOT_RADIUS, "accuracy": SHOTGUN_ACCURACY, "bullet count": SHOTGUN_PELLETS, "ammo capacity": SHOTGUN_AMMO_CAPACITY, "reload time" : SHOTGUN_RELOAD},
 ]
 

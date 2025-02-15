@@ -49,7 +49,6 @@ def color_transition(my_player):
     r = int(center_RGB[0] + (-center_RGB[0] * normalize_distance))
     g = int(center_RGB[1] + (-center_RGB[1] * normalize_distance))
     b = int(center_RGB[2] + (-center_RGB[2] * normalize_distance))
-    print(f"{r}  {g}  {b}")
 
     return (max(0,min(255,r)),max(0,min(255,g)),max(0,min(255,b)))
     
@@ -224,8 +223,8 @@ def mainMenu():
 
     my_mouse = Mouse()
     
-    button1 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Play",mainGameLoop)
-    button2 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.4), "Tutorial",tutorial)
+    button1 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.4), "Play",mainGameLoop)
+    button2 = Button(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), "Tutorial",tutorial)
     
     global need_to_check_score
     while True:
