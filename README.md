@@ -1,6 +1,7 @@
 # Planetoid-Hazard
 
 Planetoid-Hazard is an Asteroids and Risk of Rain inspired game.
+
 ![Gameplay Sample!](/Assets/popup.gif "Gameplay Sample!")
 
 ## Install Instructions
