@@ -94,7 +94,7 @@ class WeaponType(pygame.sprite.Sprite):
                 self.__time_passed = 0
                 self.our_audio_manager.playAudioGunShot()
 
-    def swap_weapon(self):
+    def swap_weapon(self, text_pos=pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT)):
         if self.__time_passed_swapping < WEAPON_SWAP_DELAY:
             return    
         self.__time_passed_swapping = 0
@@ -120,7 +120,7 @@ class WeaponType(pygame.sprite.Sprite):
         self.__swapCurrentAmmo()
         self.__swapCurrentReloadTime()
 
-        TextObject(pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT), self.active_gun, UI_WEAPON_TEXT_SPEED, UI_WEAPON_TEXT_FADE)
+        TextObject(text_pos, self.active_gun, UI_WEAPON_TEXT_SPEED, UI_WEAPON_TEXT_FADE)
 
     def update(self, delta_time):
         self.__time_passed += delta_time

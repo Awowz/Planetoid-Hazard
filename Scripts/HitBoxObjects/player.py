@@ -158,5 +158,5 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
         if keys[pygame.K_e]:
-            self.current_weapon.swap_weapon()
+            self.current_weapon.swap_weapon(self.position + pygame.Vector2(0,PLAYER_WEAPON_Y_OFFSET))
         self.reduceShieldTimer(delta_time)
