@@ -37,7 +37,7 @@ class TutorialDirector(pygame.sprite.Sprite):
     def checkProgress(self, delta_time):
         if self.current_action == 0: 
             self.display_text = "W A S D to move and SPACE to shoot. Hold Shift to slow turn"
-            self.display_text_2 = "Kill the red target at the bottom right"
+            self.display_text_2 = "Kill the red target at the bottom left"
             if self.dummy_target == None and not self.single_spawn:
                 self.dummy_target = AsteroidEnemy(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 1.1, 20, pygame.Vector2(0,0), 0, add_health=-25, add_exp_drop=0)
                 self.single_spawn =True
@@ -56,30 +56,35 @@ class TutorialDirector(pygame.sprite.Sprite):
             if self.is_player_ready():
                 self.__resetForNextStep()
         if self.current_action == 3:
-            self.display_text = "Items will enhance your survavability, picking up more of the same item stacks its effects."
+            self.display_text = "Items will enhance your survivability, picking up more of the same item stacks its effects."
             self.display_text_2 = "Press X to continue"
             if self.is_player_ready():
                 self.__resetForNextStep()
         if self.current_action == 4:
+            self.display_text = "All items synergises with specific items or a specific weapon"
+            self.display_text_2 = "Press X to continue"
+            if self.is_player_ready():
+                self.__resetForNextStep()                    
+        if self.current_action == 5:
             if not self.single_spawn:
                 for x in self.our_item_list.all_items:
                     self.our_item_list.increase_count_of_item(x)
                 self.single_spawn = True
-            self.display_text = "Press ESC to see the items you picked it. hovering the item lets you read the items details"
-            self.display_text_2 = "Press X to continue"
-            if self.is_player_ready():
-                self.__resetForNextStep()
-        if self.current_action == 5:
-            self.display_text = "You have different weapons, press E to swap between them"
-            self.display_text_2 = "Press X to continue"
+            self.display_text = "Youve been given all items. Press ESC to see the items you picked it."
+            self.display_text_2 = "Hovering the item lets you read the items details  Press X to continue"
             if self.is_player_ready():
                 self.__resetForNextStep()
         if self.current_action == 6:
-            self.display_text = "Enemies scale over time becoming harder to kill,"
+            self.display_text = "You have different weapons, press E to swap between them"
+            self.display_text_2 = "Press X to continue"
+            if self.is_player_ready():
+                self.__resetForNextStep()            
+        if self.current_action == 7:
+            self.display_text = "Enemies scale over time becoming harder to kill, with more of them spawning over time"
             self.display_text_2 = "Press X to continue"
             if self.is_player_ready():
                 self.__resetForNextStep()
-        if self.current_action == 7:
+        if self.current_action == 8:
             
             self.display_text = "Tutorial completed, good luck!"
             if self.time_elicped <= 0:
