@@ -1,4 +1,5 @@
 import pygame
+import math
 from ConstantVariables.constants import *
 
 class CircleShape(pygame.sprite.Sprite):
@@ -25,6 +26,9 @@ class CircleShape(pygame.sprite.Sprite):
         distance = self.position.distance_to(target.position)
         is_object_collided = distance <= self.radius + target.radius
         return is_object_collided
+    
+    def sinLerp(self, a,time,speed,scale):
+        return a + math.sin(time * speed) * scale
 
     def kill(self):
         super().kill()

@@ -21,6 +21,7 @@ class Player(CircleShape):
         self.font = pygame.font.Font(None, UI_FONT_SIZE)
         self.player_turn_speed = PLAYER_TURN_SPEED
         self.press_tab_text = self.font.render("TAB", True, UI_FONT_COLOR)
+        self.total_time = 0
 
         self.is_player_dead = False
         self.is_shield_active = False
@@ -85,7 +86,7 @@ class Player(CircleShape):
     def __drawTabPromt(self,screen):
         if self.avaliable_rewards <= 0: return
         pygame.draw.rect(screen, PLAYER_EXP_DISPLAY_BORDER_COLOR, [TAB_BOX_CENTER_X - (TAB_BOX_WIDTH / 2), TAB_BOX_CENTER_Y - (TAB_BOX_HEIGHT / 2), TAB_BOX_WIDTH, TAB_BOX_HEIGHT], 0)
-        pygame.draw.rect(screen, EXP_COLOR, [TAB_BOX_CENTER_X - (TAB_BOX_WIDTH / 2), TAB_BOX_CENTER_Y - (TAB_BOX_HEIGHT / 2), TAB_BOX_WIDTH, TAB_BOX_HEIGHT], 3)
+        pygame.draw.rect(screen, EXP_COLOR, [TAB_BOX_CENTER_X - (TAB_BOX_WIDTH / 2), TAB_BOX_CENTER_Y - (TAB_BOX_HEIGHT / 2), TAB_BOX_WIDTH, TAB_BOX_HEIGHT], int(self.sinLerp(TAB_REWARD_FILL,self.total_time,TAB_REWARD_SPEED,TAB_REWARD_SCALE)))
         tab_text_rect = self.press_tab_text.get_rect(center=(TAB_BOX_CENTER_X, TAB_BOX_CENTER_Y))
         screen.blit(self.press_tab_text, tab_text_rect)
 
@@ -160,3 +161,4 @@ class Player(CircleShape):
         if keys[pygame.K_e]:
             self.current_weapon.swap_weapon(self.position + pygame.Vector2(0,PLAYER_WEAPON_Y_OFFSET))
         self.reduceShieldTimer(delta_time)
+        self.total_time += delta_time
